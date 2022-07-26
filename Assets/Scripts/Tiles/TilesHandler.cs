@@ -40,10 +40,10 @@ public class TilesHandler : MonoBehaviour
 
     void Start()
     {
-        FindObjectOfType<CheckUIHovers>().gameUIHovered += SetGameUIHover;
-        FindObjectOfType<BMController>().onBuildButtonPressed += AddTileToBuild;
-        FindObjectOfType<MainBalancing>().onNewTurn += NewTurn;
-        FindObjectOfType<MainBalancing>().onSendBalanceInfo += SetBalanceInfo;
+        //FindObjectOfType<CheckUIHovers>().gameUIHovered += SetGameUIHover;
+        //FindObjectOfType<BMController>().onBuildButtonPressed += AddTileToBuild;
+        //FindObjectOfType<MainBalancing>().onNewTurn += NewTurn;
+        //FindObjectOfType<MainBalancing>().onSendBalanceInfo += SetBalanceInfo;
 
         // Randomly offsets the perlin noise
         int offSetX = UnityEngine.Random.Range(0, 99999);

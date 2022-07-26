@@ -13,8 +13,8 @@ public class CheckUIHovers : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FindObjectOfType<BMImageScale>().buildingMenuHovered += HoverBuildingMenu;
-        FindObjectOfType<TurnsScript>().turnsHovered += HoverTurns;
+        //FindObjectOfType<BMImageScale>().buildingMenuHovered += HoverBuildingMenu;
+        //FindObjectOfType<TurnsScript>().turnsHovered += HoverTurns;
     }
 
     private void Update()
