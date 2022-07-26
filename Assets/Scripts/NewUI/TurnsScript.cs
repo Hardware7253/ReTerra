@@ -28,7 +28,7 @@ public class TurnsScript : MonoBehaviour
         gameObject.GetComponentInChildren<Text>().fontSize = fontSize; // Set font size
         myRTransform.sizeDelta = referenceSize; // Set button size
         myRTransform.localScale = new Vector2(uiScale, uiScale); // Set button scale
-        myRTransform.anchoredPosition = new Vector2(sizePostScale.x * -1, sizePostScale.y); // Set button position
+        myRTransform.anchoredPosition = new Vector2(-sizePostScale.x, sizePostScale.y); // Set button position
     }
 
     void SetTurnText(int turn)

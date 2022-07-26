@@ -38,7 +38,7 @@ public class StatsScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     
@@ -101,12 +101,13 @@ public class StatsScript : MonoBehaviour
         }
     }
 
+    
     // Set text of stats displays
     void SetStatText(int display, int supply, int demand)
     {
         if (display >= statsDisplays.Length)
         {
-            currencyDisplay.GetComponentInChildren<Text>().text = " " + supply + "/" + demand;
+            currencyDisplay.GetComponentInChildren<Text>().text = " " + supply;
             return;
         }
         statsDisplays[display].GetComponentInChildren<Text>().text = " " + supply + "/" + demand;
