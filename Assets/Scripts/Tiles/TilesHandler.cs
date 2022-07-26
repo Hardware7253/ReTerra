@@ -252,6 +252,9 @@ public class TilesHandler : MonoBehaviour
         CreateTiles();
     }
 
+    // Detects current place tiles
+    // Used to calculate power per turn, hapiness per turn, environment per turn
+
 
     // Takes a percent chance in and returns a bool depending on that chance
     // E.g. The function returns true 50% of the time if a chance of 50 is given

@@ -32,6 +32,4 @@ public class MainBalancing : MonoBehaviour
     {
         onSendBalanceInfo?.Invoke(tileGrowChancePerTurn, seedSpreadChancePerAdjacentTile);
     }
-
-    // Tommorow make code in main camera that detects large screens, use events to tell other scripts
 }

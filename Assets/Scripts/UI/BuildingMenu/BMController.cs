@@ -108,19 +108,15 @@ public class BMController : MonoBehaviour
                 break;
 
             case 1: // Barren Plains
-                buttonsId = new int[] { 9, -1, -1, -1 }; // Seeds
+                buttonsId = new int[] { 9, 23, -1, -1 }; // Seeds, Coal plant
                 break;
 
-            case 2: // Barren Rocks
-                buttonsId = new int[] { 23, -1, -1, -1 }; // Coal Plant
+            case 2: // Rocks
+                buttonsId = new int[] { 19, 24, -1, -1 }; // Mine
                 break;
 
             case 3: // Plains
                 buttonsId = new int[] { 8, -1, -1, -1 }; // Trees
-                break;
-
-            case 4: // Rocks
-                buttonsId = new int[] { 19, -1, -1, -1 }; // Wind Turbine
                 break;
 
 
@@ -145,16 +141,12 @@ public class BMController : MonoBehaviour
                 text = "Barren Plains";
                 break;
 
-            case 2: // Barren Rocks
-                text = "Barren Rocks";
+            case 2: // Rocks
+                text = "Rocks";
                 break;
 
             case 3: // Plains
                 text = "Plains";
-                break;
-
-            case 4: // Rocks
-                text = "Rocks";
                 break;
 
             case 8: // Trees
@@ -175,6 +167,10 @@ public class BMController : MonoBehaviour
 
             case 23: // Coal Plant
                 text = "Coal Plant";
+                break;
+
+            case 24: // Mines
+                text = "Mines";
                 break;
 
 
