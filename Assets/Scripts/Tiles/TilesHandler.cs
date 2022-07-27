@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.EventSystems;
 
 
 // Generates terrain, builds tiles, player interactions with tiles
@@ -24,7 +25,9 @@ public class TilesHandler : MonoBehaviour
     [SerializeField]
     Tilemap tilemap;
 
-    public event Action<int> OnTilePressed;
+    public event Action<int> onTileSelect;
+    public event Action<int, bool> onTileSend;
+    public event Action onResetMStats;
 
     Color defaultTileColour = new Color(1, 1, 1, 1);
     Color hoverTileColour = new Color(0.95f , 0.95f , 0.95f , 1);
@@ -40,10 +43,10 @@ public class TilesHandler : MonoBehaviour
 
     void Start()
     {
-        //FindObjectOfType<CheckUIHovers>().gameUIHovered += SetGameUIHover;
         FindObjectOfType<MainBalancing>().onBuildButtonPressed += AddTileToBuild;
         FindObjectOfType<MainBalancing>().onNewTurn += NewTurn;
         FindObjectOfType<MainBalancing>().onSendBalanceInfo += SetBalanceInfo;
+        FindObjectOfType<MainBalancing>().resetClickedTile += TileClicked;
 
         // Randomly offsets the perlin noise
         int offSetX = UnityEngine.Random.Range(0, 99999);
@@ -51,6 +54,7 @@ public class TilesHandler : MonoBehaviour
 
         GenerateTileGrid(offSetX, offSetY);
         CreateTiles();
+        DetectAllCurrentTiles();
     }
 
     void Update()
@@ -69,6 +73,11 @@ public class TilesHandler : MonoBehaviour
         seedSpreadChance = seedSpreadChanceL;
     }
 
+    bool IsMouseOverUi()
+    {
+        return EventSystem.current.IsPointerOverGameObject();
+    }
+
 
 
     // Handles interactions between the user and the tiles
@@ -83,7 +92,11 @@ public class TilesHandler : MonoBehaviour
 
         // Un clicks a tile if escape is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
+        {
             clickedTile = new Vector3Int(width, height, 0);
+            onTileSelect?.Invoke(-1);
+        }
+
 
         // Resets all tile colours and checks for clicked tiles
         for (int x = 0; x < width; x++)
@@ -104,7 +117,7 @@ public class TilesHandler : MonoBehaviour
         // Changes tile hover color and detects when a tile is clicked
         if (tilesHovered && sTilePos != clickedTile)
         {
-            if (!gameUIHovered)
+            if (!IsMouseOverUi())
             {
                 // Changes hovered tile color
                 tilemap.SetColor(sTilePos, hoverTileColour);
@@ -112,7 +125,7 @@ public class TilesHandler : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     clickedTile = sTilePos;
-                    OnTilePressed?.Invoke(tileGrid[sTilePos.x, sTilePos.y]); // Gets index of the selected tile and sends it to other scripts when the left mouse button is pressed
+                    TileClicked();
                 }
 
             }
@@ -121,13 +134,20 @@ public class TilesHandler : MonoBehaviour
 
     }
 
+    void TileClicked()
+    {
+        if (clickedTile.x > 6 && clickedTile.y > 6)
+            return;
+        onTileSelect?.Invoke(tileGrid[clickedTile.x, clickedTile.y]); // Gets index of the selected tile and sends it to other scripts when the left mouse button is pressed
+    }
+
 
     // Adds tile to build to the tileGrid array
     void AddTileToBuild(int id)
     {
         // Sets current clicked tile to new id
         tileGrid[clickedTile.x, clickedTile.y] = id;
-        OnTilePressed?.Invoke(id);
+        onTileSelect?.Invoke(id);
 
         CreateTiles();
     }
@@ -191,6 +211,7 @@ public class TilesHandler : MonoBehaviour
     void NewTurn()
     {
         UpdateSeeds();
+        DetectAllCurrentTiles();
     }
 
     // Update seeds
@@ -254,8 +275,23 @@ public class TilesHandler : MonoBehaviour
         CreateTiles();
     }
 
-    // Detects current place tiles
+    // Detects current placed tiles
     // Used to calculate power per turn, hapiness per turn, environment per turn
+    void DetectAllCurrentTiles()
+    {
+        onResetMStats?.Invoke();
+        bool update = false;
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (x == 6 && y == 6)
+                    update = true;
+
+                onTileSend?.Invoke(tileGrid[x, y], update);
+            }
+        }
+    }
 
 
     // Takes a percent chance in and returns a bool depending on that chance

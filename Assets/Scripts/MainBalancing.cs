@@ -7,22 +7,33 @@ public class MainBalancing : MonoBehaviour
 {
     int turn;
 
-    int tileGrowChancePerTurn = 50;
-    int seedSpreadChancePerAdjacentTile = 50;
+    int tileGrowChancePerTurn = 50; // Percentage chance of a seed growing per turn
+    int seedSpreadChancePerAdjacentTile = 50; // Percentage chance of a seed spreading to an adjacent tile per turn
 
-    int selectedId;
+    int[] buttonIds; // Array of tile ids corresponding to each building menu botton
 
-    int[] buttonIds;
+    int sButton;
+    int pButton;
+
+    bool sHover;
+    bool pHover;
+
+    // Global stats
+    int gCurrency = 0;
+    int gCoal = 0, gReqCoal = 0;
+    int gPower = 0, gReqPower = 0;
+    int gEnvironment = 0;
+    int gPopulation = 0;
+    int gHapiness = 0;
 
     public event Action<int, int> onSendBalanceInfo; // Event responsible for sending balancing info to other scripts
     public event Action onNewTurn; // Called whenever there is a new turn so all scripts can keep track
 
-    public event Action<int, string, bool> onSetBuildText; // Event responsible for updating text, and image visibility of build menu buttons
+    public event Action<int, string, bool, int> onSetBuildText; // Event responsible for updating text, and image visibility of build menu buttons
     public event Action<bool, bool> onSetBuildOpen; // Opens / closes the build menu, and enables / disables scroll rect
-    public event Action<int, int, int, bool, Color> onSetStatsImpact; // Event responsible for setting stats display to show the impact of the selected tile on the stats
+    public event Action<int, int, int, bool, Color> onSetStatText; // Event responsible for setting text of stats displays
     public event Action<int> onBuildButtonPressed; // Event gives TilesHandler tile to build on the isometric map
-
-    public event Action<int> onSetSelId;
+    public event Action resetClickedTile; // Does the equivelent of re clicking a tile after the buidling menu has been hovered. Otherwise the incorrect stats show in the stats display
 
     Color defaultColor = new Color(0.1960784f, 0.1960784f, 0.1960784f, 1); // Default color for stats displays (gray)
     Color positiveColor = new Color(0.4039216f, 0.7215686f, 0.5764706f, 1); // Positive color for stats display, used when showing a preview for what effects a tile has (green)
@@ -37,20 +48,82 @@ public class MainBalancing : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FindObjectOfType<TilesHandler>().OnTilePressed += UpdateButtons;
-        FindObjectOfType<TilesHandler>().OnTilePressed += SelStatsTileID;
+        FindObjectOfType<TilesHandler>().onTileSelect += UpdateButtons;
+        FindObjectOfType<TilesHandler>().onTileSend += TileStatsImpact;
+        FindObjectOfType<TilesHandler>().onResetMStats += ResetMasterStats;
+
+        FindObjectOfType<ButtonDetector>().hoveredButtons += SetHoveredBMButton;
+        SelStats(-1, true);
     }
 
-    // Set selected tile id, this can be set by the clicked on tile or the hovered text in the build menu
-    void SelStatsTileID(int id)
+    void SetHoveredBMButton(int button, bool isHovered)
     {
-        // Tommorow get id of hovered button, use it to figure out the stats for that thing, I have to shit now bye
-        selectedId = id;
+        sButton = button;
+        sHover = isHovered;
+
+        // If condition is only met if the button or hover change
+        // This is so the stat displays aren't spammed updated, that would block them being updated by other pieces of code
+        if (sButton != pButton || sHover != pHover)
+        {
+            if (isHovered)
+            {
+                SelStats(buttonIds[button], true);
+            }
+
+            if (!isHovered)
+            {
+                resetClickedTile?.Invoke();
+            }
+        }
+
+        pButton = sButton;
+        pHover = sHover;
+    }
+
+
+    // Set selected tile id, this can be set by the clicked on tile or the hovered text in the build menu
+    void SelStats(int id, bool notTilePressed)
+    {
+        if (id > -1)
+        {
+            SetStatsForBuildTiles(id, notTilePressed);
+            return;
+        }
+
+        SetMasterStats();
+
+    }
+
+    // Sets the master stats
+    // The master stats are all the stats combined of every tile, and other calculated stats such as hapiness and currency
+    void SetMasterStats()
+    {
+        onSetStatText.Invoke(0, gPopulation, 0, false, defaultColor);
+        onSetStatText.Invoke(1, gEnvironment, 0, false, defaultColor);
+        onSetStatText.Invoke(2, gPower, gReqPower, true, defaultColor);
+        onSetStatText.Invoke(3, gCoal, gReqCoal, true, defaultColor);
+        onSetStatText.Invoke(4, gCurrency, 0, false, defaultColor);
+    }
+
+
+    // Reset the master stats
+    // So stats don't accumulate (because the stats are updated at the start of each turn)
+    void ResetMasterStats()
+    {
+        gCurrency = 0;
+        gCoal = 0;
+        gReqCoal = 0;
+        gPower = 0;
+        gReqPower = 0;
+        gEnvironment = 0;
+        gPopulation = 0;
+        gHapiness = 0;
     }
 
     // Gets called when a building button is pressed
     public void BuildButtonPressed(int button)
     {
+        SelStats(buttonIds[button], false);
         onBuildButtonPressed?.Invoke(buttonIds[button]);
     }
 
@@ -67,12 +140,13 @@ public class MainBalancing : MonoBehaviour
             if (bText == null)
                 buttonActive = false;
 
-            onSetBuildText?.Invoke(i, bText, buttonActive);
+            onSetBuildText?.Invoke(i, bText, buttonActive, buildIds[i]);
         }
 
 
         // Closes the building menu if all of the buttons have no text
         onSetBuildOpen?.Invoke(!CheckArrayConstant(-1, buildIds), ArrayLEActive(buildIds, -1, 2));
+        SelStats(id, false);
     }
 
     // Checks if an array is >= activeNeeded number
@@ -187,10 +261,7 @@ public class MainBalancing : MonoBehaviour
         return text;
     }
 
-
-    // Holds information for what the effects are of tiles on stats
-    // E.g. Hydro plant gives 3 power per turn, and costs 12 currency
-    void StatsForBuildTiles(int id)
+    int[] TileStats(int id, bool includeCurrency)
     {
         // These variables describe the relative affect on their corresponding stats per turn
         // E.g. each water tile provides an additional 1 hapiness per turn
@@ -199,6 +270,8 @@ public class MainBalancing : MonoBehaviour
         int coal;
         int power;
         int environment;
+
+        int[] statsArray;
 
         switch (id)
         {
@@ -281,9 +354,50 @@ public class MainBalancing : MonoBehaviour
                 break;
         }
 
+        statsArray = new int[] {currency, coal, power, environment};
+        if (!includeCurrency)
+            statsArray = new int[] {0, coal, power, environment};
+
+        return statsArray;
+    }
+
+    // Gets the difference a given tile Id makes on the master stats
+    // Updates the master stats display if shouldUpdate is true
+    void TileStatsImpact(int id, bool shouldUpdate)
+    {
+        int[] stats;
+        stats = TileStats(id, false);
+
+        gCoal += stats[1];
+        gPower += stats[2];
+        gEnvironment += stats[3];
+
+        if (shouldUpdate)
+        {
+            // Calculations for power, hapiness, etc should go here
+            SetMasterStats();
+        }
+
+    }
+
+
+    // Holds information for what the effects are of tiles on stats
+    // E.g. Hydro plant gives 3 power per turn, and costs 12 currency
+    void SetStatsForBuildTiles(int id, bool includeCurrency)
+    {
+        int[] stats = TileStats(id, includeCurrency);
+
+        int currency= stats[0];
+        int coal = stats[1];
+        int power = stats[2];
+        int environment = stats[3];
+
+
         // Add impact stats to an array, the positions in the array correspond to the position of the display they are to be displayed in
         // There is a 0 at the start because hapiness and population are calculated independently, they don't only rely on tiles
         int[] tileStatsImpact = new int[] {0, environment, power, coal, currency};
+        if (!includeCurrency)
+            tileStatsImpact = new int[] {0, environment, power, coal, 0};
 
         for (int i = 0; i < tileStatsImpact.Length; i++)
         {
@@ -298,10 +412,8 @@ public class MainBalancing : MonoBehaviour
             if ( stat < 0)
                 color = negativeColor;
 
-            onSetStatsImpact?.Invoke(i, stat, 0, false, color);
+            onSetStatText.Invoke(i, stat, 0, false, color);
         }
-
-
     }
 
 

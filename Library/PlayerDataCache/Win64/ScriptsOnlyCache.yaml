@@ -1,9 +1,12 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - BMButton
     - BuildingMenuScript
+    - ButtonDetector
     - CameraScript
     - MainBalancing
+    - StatTextPositioner
     - StatsScript
     - TilesHandler
     - TurnsScript
@@ -64,37 +67,43 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11370}
     - Class: 114
-      Script: {instanceID: 11438}
+      Script: {instanceID: 11436}
     - Class: 114
-      Script: {instanceID: 11658}
+      Script: {instanceID: 11472}
     - Class: 114
-      Script: {instanceID: 11726}
+      Script: {instanceID: 11656}
     - Class: 114
-      Script: {instanceID: 11786}
+      Script: {instanceID: 11724}
     - Class: 114
-      Script: {instanceID: 12004}
+      Script: {instanceID: 11784}
     - Class: 114
-      Script: {instanceID: 12218}
+      Script: {instanceID: 12000}
     - Class: 114
-      Script: {instanceID: 12374}
+      Script: {instanceID: 12214}
     - Class: 114
-      Script: {instanceID: 12572}
+      Script: {instanceID: 12370}
     - Class: 114
-      Script: {instanceID: 12880}
+      Script: {instanceID: 12568}
     - Class: 114
-      Script: {instanceID: 13002}
+      Script: {instanceID: 12632}
+    - Class: 114
+      Script: {instanceID: 12874}
+    - Class: 114
+      Script: {instanceID: 12996}
+    - Class: 114
+      Script: {instanceID: 13452}
     - Class: 114
       Script: {instanceID: 13460}
     - Class: 114
-      Script: {instanceID: 13468}
+      Script: {instanceID: 13646}
     - Class: 114
-      Script: {instanceID: 13654}
+      Script: {instanceID: 14226}
     - Class: 114
-      Script: {instanceID: 14404}
+      Script: {instanceID: 14398}
     - Class: 114
-      Script: {instanceID: 14970}
+      Script: {instanceID: 14964}
     - Class: 114
-      Script: {instanceID: 15150}
+      Script: {instanceID: 15144}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -134,12 +143,6 @@ ScriptsOnlyBuild:
     className: CanvasScaler
   - hash:
       serializedVersion: 2
-      Hash: f1a89c7e020e8a7fcfa3b9f52fa718a0
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: TilesHandlerBackup
-  - hash:
-      serializedVersion: 2
       Hash: c42672c997f8be6b1aa86a927ebea785
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -167,7 +170,7 @@ ScriptsOnlyBuild:
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: BMImageScale
+    className: StatTextPositioner
   - hash:
       serializedVersion: 2
       Hash: e7a73f5f78ba6445195ec23b74a1ce2d
@@ -252,12 +255,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_InputField
-  - hash:
-      serializedVersion: 2
-      Hash: 7c84c927830e1c64bc88d326e66f087f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: BMController
   - hash:
       serializedVersion: 2
       Hash: 7ab0e790220bdca831fdd886b339039d
@@ -380,22 +377,16 @@ ScriptsOnlyBuild:
     className: SpriteShape
   - hash:
       serializedVersion: 2
-      Hash: 127f59a666d4689383397778b102e2e0
+      Hash: a36aa12078e232ebe46cb1e27da80066
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: StatDispController
+    className: BMButton
   - hash:
       serializedVersion: 2
       Hash: fd68d84f33fad85aac38f2739c0ee270
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SpriteAsset
-  - hash:
-      serializedVersion: 2
-      Hash: eb13e514ffd9074d6b063ff43889f409
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: TurnsScriptOld
   - hash:
       serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
@@ -435,12 +426,6 @@ ScriptsOnlyBuild:
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: CheckUIHovers
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SpriteAnimator
@@ -464,7 +449,7 @@ ScriptsOnlyBuild:
     className: Button
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 87d10bc5c564ee37217a981726f81069
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: BuildingMenuScript
@@ -540,6 +525,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: TimelineAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ButtonDetector
   - hash:
       serializedVersion: 2
       Hash: 6939772cb3ce775a8e8d99f332534491
