@@ -7,15 +7,17 @@ public class CameraScript : MonoBehaviour
 {
     float cameraSpeed = 1.2f;
 
-    float pSize;
-    Vector2 pRes;
-
-    public event Action onSizeChange;
-    public event Action onResChange;
-    public event Action<bool> onChangeScreenType;
-
+    //Vector2 camXLimits = new Vector2(-4, 4);
+    //Vector2 camYLimits = new Vector2(-0.5f, 4);
+    
+    float[] camXLimits = new float[2] {-4, 4};
+    float[] camYLimits = new float[2] {-0.5f, 4};
     void LateUpdate()
-    {
+    {   
+        // Return if pauseMenu is open
+        // Because camera should not be able to move when the game is paused
+        if (EscapeLevelHandler.pauseMenuOpen == true)
+            return;
 
         // Move camera with WASD
         float x = Input.GetAxis("Horizontal") * Time.deltaTime * cameraSpeed;
@@ -24,36 +26,51 @@ public class CameraScript : MonoBehaviour
         Vector3 move = new Vector3(x, y, 0);
 
         transform.Translate(move, Space.Self);
+
+        
+        CamerRestriction();
+        
     }
 
-    private void Update()
+    // Restrict camera movement
+    void CamerRestriction()
     {
-        // Detects if the cameras size has changed
-        if (Camera.main.orthographicSize != pSize)
+        Vector3 pos = gameObject.transform.position;
+        float outPosX = pos.x;
+        float outPosY = pos.y;
+
+        bool shouldUpdate = false;
+
+        // Camera restriction for negative x
+        if (pos.x < camXLimits[0])
         {
-            pSize = Camera.main.orthographicSize;
-            onSizeChange?.Invoke();
+            outPosX = camXLimits[0];
+            shouldUpdate = true;
         }
 
-        // Detects if the screen resolution has changed
-        if (new Vector2(Screen.width, Screen.height) != pRes)
+        // Camera restriction for positive x
+        if (pos.x > camXLimits[1])
         {
-            pRes = new Vector2(Screen.width, Screen.height);
-            SetScreenType();
-            onResChange?.Invoke();
-        }
-    }
-
-    void SetScreenType()
-    {
-        bool largeScreen = false;
-        if (Screen.width >= 1280 && Screen.height >= 720) // Detect large screen size
-        {
-            largeScreen = true;
+            outPosX = camXLimits[1];
+            shouldUpdate = true;
         }
 
-        onChangeScreenType?.Invoke(largeScreen);
+        // Camera restriction for negative y
+        if (pos.y < camYLimits[0])
+        {
+            outPosY = camYLimits[0];
+            shouldUpdate = true;
+        }
 
+        // Camera restriction for positive y
+        if (pos.y > camYLimits[1])
+        {
+            outPosY = camYLimits[1];
+            shouldUpdate = true;
+        }
+
+        if (shouldUpdate)
+            gameObject.transform.position = new Vector3(outPosX, outPosY, -1);
     }
 
 }

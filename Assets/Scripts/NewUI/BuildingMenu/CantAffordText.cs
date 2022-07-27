@@ -26,14 +26,14 @@ public class CantAffordText : MonoBehaviour
 
 
     // Set the position of the text just below the building menu buttons box
-    void SetTextPos(Vector3 cTransformProperties)
+    void SetTextPos(Vector2 cTransformProperties)
     {   
         Vector2 mySize = myRTransform.sizeDelta;
 
-        float yOffset = ((mySize.y / 2) * cTransformProperties.z);
+        float yOffset = ((mySize.y / 2) * MainBalancing.uiScale);
 
         myRTransform.anchoredPosition = new Vector2(cTransformProperties.x, (cTransformProperties.y * 2) - yOffset);
-        myRTransform.localScale = new Vector2(cTransformProperties.z, cTransformProperties.z);
+        myRTransform.localScale = new Vector2(MainBalancing.uiScale, MainBalancing.uiScale);
     }
 
     void ShowText(bool showText)

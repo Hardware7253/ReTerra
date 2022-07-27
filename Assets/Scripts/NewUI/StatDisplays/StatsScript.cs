@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class StatsScript : MonoBehaviour
 {
-    float uiScale = 5;
+    float uiScaleL = (float)MainBalancing.uiScale;
     float pad = 2;
 
     int keyPresses = 0;
@@ -22,14 +22,28 @@ public class StatsScript : MonoBehaviour
     [SerializeField]
     GameObject currencyDisplay;
 
+    [SerializeField]
+    Sprite[] populationImages;
+
     Vector2[] displayPositions;
 
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        FindObjectOfType<PauseMenuScript>().onSetUiScale += SetUiScale;
         FindObjectOfType<MainBalancing>().onSetStatText += SetStatText;
+        FindObjectOfType<MainBalancing>().onSendHapiness += SetHapiness;
 
         displayPositions = new Vector2[statsDisplays.Length + 2];
+        ShowStats(statMenuOpen);
+        SetHapiness(0f);
+    }
+
+    // Called whenever uiScale is changed
+    void SetUiScale()
+    {
+        uiScaleL = (float)MainBalancing.uiScale;
+        
         ShowStats(statMenuOpen);
     }
 
@@ -89,10 +103,10 @@ public class StatsScript : MonoBehaviour
                 statsDisplays[i].GetComponent<Image>().enabled = true;
                 statsDisplays[i].GetComponentInChildren<Text>().enabled = true;
 
-                statsDisplays[i].GetComponent<RectTransform>().localScale = new Vector2(uiScale, uiScale); // Set image scale
+                statsDisplays[i].GetComponent<RectTransform>().localScale = new Vector2(uiScaleL, uiScaleL); // Set image scale
                 statsDisplays[i].GetComponent<RectTransform>().anchoredPosition = displayPositions[i]; // Set image position
             }
-            cTransfrom.localScale = new Vector2(uiScale, uiScale); // Set currency image scale
+            cTransfrom.localScale = new Vector2(uiScaleL, uiScaleL); // Set currency image scale
             cTransfrom.anchoredPosition = displayPositions[statsDisplays.Length]; // Set currency image position to top
         }
 
@@ -100,8 +114,8 @@ public class StatsScript : MonoBehaviour
         void CalculatePositions()
         {
             // Calculates size of stats images after they have been scaled
-            float imageSizePostScale = statImageSize * (uiScale / 2);
-            Vector2 currencyImageSizePostScale = new Vector2(currencyImageSize.x * (uiScale / 2), currencyImageSize.y * (uiScale / 2));
+            float imageSizePostScale = statImageSize * (uiScaleL / 2);
+            Vector2 currencyImageSizePostScale = new Vector2(currencyImageSize.x * (uiScaleL / 2), currencyImageSize.y * (uiScaleL / 2));
 
             Vector2 bottomPosition = new Vector2(imageSizePostScale + pad, imageSizePostScale + pad); // The position of the bottom most image
             for(int i = 0; i < statsDisplays.Length; i++)
@@ -134,6 +148,30 @@ public class StatsScript : MonoBehaviour
             sText.text = " " + supply; // Ignore demand if the display mode is not supply/demand
         sText.color = color;
 
+    }
+
+    // Sets which sprite is used for the population display
+    // This visually shows population hapiness to the player
+    void SetHapiness(float hapiness)
+    {   
+        int spriteIndex = Map(hapiness, populationImages.Length, 1f);
+        statsDisplays[0].GetComponent<Image>().sprite = populationImages[spriteIndex];
+    }
+
+    // Maps float to integer value E.g. If input = 0.21, maxOutVal = 1, maxInVal = 1f then the output will be 1
+    // This is because (input <= 0.5) = 0 and (input > 0.5) = 1, each integer is mapped to a specific section of the float
+    int Map(float input, int maxOutVal, float maxInVal)
+    {
+        float fValPerItem = maxInVal / maxOutVal;
+
+        for (int i = 1; i <= maxOutVal; i++)
+        {
+            if (input <= fValPerItem * i) // Test to see if the the input value matches with a section of the float value
+            {
+                return i - 1; // Subtract by 1 to get the proper index, the for loop can't start at 0 because i has to be used to multiply
+            }
+        }
+        return maxOutVal; // Return maxOutVal if the for loop fails
     }
 
 }

@@ -13,21 +13,16 @@ public class MarkerTilesHandler : MonoBehaviour
     [SerializeField]
     Tilemap tilemap;
 
-    Vector3Int[] markerPositions;
-    int markerPosIndex = 0;
-
 
     // Must be the same as TilesHandler width and height
-    int width = 7;
-    int height = 7;
+    int lWidth = TilesHandler.width;
+    int lHeight = TilesHandler.height;
 
     // Start is called before the first frame update
     void Start()
     {   
         FindObjectOfType<MainBalancing>().onResetMarker += ResetMarkers;
-        FindObjectOfType<TilesHandler>().onPlaceMarker += PlaceMarker;
-        
-        markerPositions = new Vector3Int[width * height];
+        FindObjectOfType<MainBalancing>().onPlaceMarker += PlaceMarker;
     }
 
     // Places a marker at a given position
@@ -35,21 +30,18 @@ public class MarkerTilesHandler : MonoBehaviour
     // Maerker 1 = powerMarker
     void PlaceMarker(Vector3Int position, int marker)
     {   
-        markerPositions[markerPosIndex] = position;
         tilemap.SetTile(position, markers[marker]);
-
-        markerPosIndex++;
     }
 
     // Removes all the markers on screen
     void ResetMarkers()
     {   
-        int length = markerPosIndex;
-        for (int i = 0; i < length; i++)
+        for (int x = 0; x < lWidth; x++)
         {
-            tilemap.SetTile(markerPositions[i], null);
-
-            markerPosIndex--;
+            for (int y = 0; y < lHeight; y++)
+            {
+                tilemap.SetTile(new Vector3Int(x, y, 0), null);
+            }
         }
     }
 }

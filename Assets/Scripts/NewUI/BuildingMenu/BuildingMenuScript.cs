@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class BuildingMenuScript : MonoBehaviour
 {
-    float uiScale = 5;
+    float uiScaleL = (float)MainBalancing.uiScale;
 
-    int fontSize = 14;
+    int fontSize = 12;
 
     Vector2 sizePostScale;
     Vector2 openedPosition;
@@ -26,12 +26,15 @@ public class BuildingMenuScript : MonoBehaviour
 
     RectTransform myRTransform;
 
-    public event Action<Vector3> onSendProperties;
+    public event Action<Vector2> onSendProperties;
+
+    public static bool buildingMenuOpen = false;
 
     // Start is called before the first frame update
     void Start()
     {
         // Subscribe to events
+        FindObjectOfType<PauseMenuScript>().onSetUiScale += SetUiScale;
         FindObjectOfType<MainBalancing>().onSetBuildText += SetButtonText;
         FindObjectOfType<MainBalancing>().onSetBuildOpen += MenuOpen;
 
@@ -45,13 +48,22 @@ public class BuildingMenuScript : MonoBehaviour
         MenuOpen(false, false);
     }
 
+    // Called whenever uiScale is changed
+    void SetUiScale()
+    {
+        uiScaleL = (float)MainBalancing.uiScale;
+        
+        SetScalePos();
+        MenuOpen(false, false);
+    }
+
     // Set the scale and position of the turns button
     void SetScalePos()
     {
         Vector2 refSize = myRTransform.sizeDelta;
-        sizePostScale = new Vector2(refSize.x * (uiScale / 2), refSize.y * (uiScale / 2)); // Calulate the new image size after it has been scaled
+        sizePostScale = new Vector2(refSize.x * (uiScaleL / 2), refSize.y * (uiScaleL / 2)); // Calulate the new image size after it has been scaled
 
-        myRTransform.localScale = new Vector2(uiScale, uiScale); // Set image scale
+        myRTransform.localScale = new Vector2(uiScaleL, uiScaleL); // Set image scale
 
         // Set image positions for when the menu is open or closed
         openedPosition = new Vector2(sizePostScale.x, -sizePostScale.y);
@@ -85,32 +97,29 @@ public class BuildingMenuScript : MonoBehaviour
         {
             myRTransform.anchoredPosition = openedPosition; // Open menu
             SendProperties();
+            buildingMenuOpen = true;
             return;
         }
         SendProperties();
+        buildingMenuOpen = false;
         myRTransform.anchoredPosition = closedPosition; // Close menu
     }
 
     // Send properties for can't afford text
     // x and y are for container position
-    // z is for ui scale
     void SendProperties()
     {
-        Vector3 properties = myRTransform.anchoredPosition;
-        properties.z = uiScale;
+        Vector2 properties = myRTransform.anchoredPosition;
 
         onSendProperties?.Invoke(properties);
     }
 
-
     // Update is called once per frame
     void Update()
     {
-        // Hides building menu if escape is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             MenuOpen(false, false);
         }
-            
     }
 }

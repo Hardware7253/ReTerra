@@ -7,12 +7,12 @@ using UnityEngine.EventSystems;
 public class ButtonDetector : MonoBehaviour
 {
     int sButton;
-    public event Action<int, bool> hoveredButtons;
+    public event Action<int, bool, bool> hoveredButtons;
 
     void Update()
     {
         bool isHovered = IsBuildingButtonsHoverd();
-        hoveredButtons?.Invoke(sButton, isHovered);
+        hoveredButtons?.Invoke(sButton, isHovered, false);
     }
 
 

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class TurnsScript : MonoBehaviour
 {
     int turn = 0;
-    float uiScale = 5;
+    float uiScaleL = (float)MainBalancing.uiScale;
 
     int fontSize = 14;
 
@@ -18,26 +18,30 @@ public class TurnsScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {   
-        FindObjectOfType<MainBalancing>().onSetUiScale += SetUiScale;
+        FindObjectOfType<PauseMenuScript>().onSetUiScale += SetUiScale;
 
         myRTransform = gameObject.GetComponent<RectTransform>();
         SetScalePos();
         SetTurnText();
     }
 
-    void SetUiScale(int scale)
+    // Called whenever uiScale is changed
+    void SetUiScale()
     {
-        uiScale = scale;
+        uiScaleL = (float)MainBalancing.uiScale;
+        
+        SetScalePos();
+        SetTurnText();
     }
 
     // Set the scale and position of the turns button
     void SetScalePos()
     {
-        Vector2 sizePostScale = new Vector2(referenceSize.x * (uiScale / 2), referenceSize.y * (uiScale / 2)); // Calulate the new image size after it has been scaled
+        Vector2 sizePostScale = new Vector2(referenceSize.x * (uiScaleL / 2), referenceSize.y * (uiScaleL / 2)); // Calulate the new image size after it has been scaled
 
         gameObject.GetComponentInChildren<Text>().fontSize = fontSize; // Set font size
         myRTransform.sizeDelta = referenceSize; // Set button size
-        myRTransform.localScale = new Vector2(uiScale, uiScale); // Set button scale
+        myRTransform.localScale = new Vector2(uiScaleL, uiScaleL); // Set button scale
         myRTransform.anchoredPosition = new Vector2(-sizePostScale.x, sizePostScale.y); // Set button position
     }
 

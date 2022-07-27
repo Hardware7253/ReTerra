@@ -9,18 +9,43 @@ using UnityEngine.EventSystems;
 // Generates terrain, builds tiles, player interactions with tiles
 public class TilesHandler : MonoBehaviour
 {
+
+    // The ids of the tiles that are naturally generated
+    // In order of height bottom to top
+    int[] terrainTiles = new int[]
+    {   
+        1, // Water
+        3, // Barren Plains
+        2 // Rocks
+    };
+
+    // ids for seeds
+    // In order from least to most grown
+    int[] seedGrowthIds = new int[]
+    {
+        4, // Seeds
+        5, // Seeds (Growing1)
+        6, // Seeds (Growing2)
+        7  // Plains
+    };
+
+    int seedSpreadableId = 3;
+
+    int townId = 0;
+
     // Map width and height
-    private static readonly int width = 7;
-    private static readonly int height = 7;
+    public static readonly int width = 7;
+    public static readonly int height = 7;
 
     private float magnification = 1.8f; // Perlin noise magnification reccomend 1.8
 
     // Array stores index of each tile, effectively the text version of what is shown on screen
-    public int[,] tileGrid = new int[width, height];
+    public static int[,] tileGrid = new int[width, height];
 
     [SerializeField]
     private TileBase[] tiles;
-    int GeneratedTilesAmmount = 3; // How many items in the tiles array will be used as natural generation tiles
+
+    
 
     [SerializeField]
     Tilemap tilemap;
@@ -28,13 +53,14 @@ public class TilesHandler : MonoBehaviour
     public event Action<int> onTileSelect;
     public event Action<int, bool> onTileSend;
     public event Action onResetMStats;
-    public event Action<Vector3Int, int> onPlaceMarker;
 
     Color defaultTileColour = new Color(1, 1, 1, 1);
     Color hoverTileColour = new Color(0.95f , 0.95f , 0.95f , 1);
     Color clickTileColour = new Color(0.8f, 0.95f, 0.8f, 1);
 
     Vector3Int clickedTile = new Vector3Int(width, height, 0);
+
+    public static bool tileIsClicked;
 
     bool gameUIHovered;
 
@@ -48,7 +74,7 @@ public class TilesHandler : MonoBehaviour
         FindObjectOfType<MainBalancing>().onNewTurn += NewTurn;
         FindObjectOfType<MainBalancing>().onSendBalanceInfo += SetBalanceInfo;
         FindObjectOfType<MainBalancing>().resetClickedTile += TileClicked;
-        FindObjectOfType<MainBalancing>().onSendMarker += AddMarkers;
+        //FindObjectOfType<MainBalancing>().onSendMarker += AddMarkers;
 
         
         // Randomly offsets the perlin noise
@@ -57,7 +83,7 @@ public class TilesHandler : MonoBehaviour
 
         GenerateTileGrid(offSetX, offSetY);
         CreateTiles();
-        PlaceTile(new Vector2Int(UnityEngine.Random.Range(0, width), UnityEngine.Random.Range(0, height)), 29, true); // Places a town at random location on the grid
+        PlaceTile(new Vector2Int(UnityEngine.Random.Range(0, width), UnityEngine.Random.Range(0, height)), townId, true); // Places a town at random location on the grid
     }
 
     void Update()
@@ -93,11 +119,10 @@ public class TilesHandler : MonoBehaviour
 
         bool tilesHovered = sTilePos.x >= 0 && sTilePos.x < width && sTilePos.y >= 0 && sTilePos.y < height;
 
-        // Un clicks a tile if escape is pressed
+        // Deselects a tile if escape is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            clickedTile = new Vector3Int(width, height, 0);
-            onTileSelect?.Invoke(-1);
+            UnClickTile();
         }
 
 
@@ -137,37 +162,20 @@ public class TilesHandler : MonoBehaviour
 
     }
 
-    void TileClicked()
+    void UnClickTile()
     {
-        if (clickedTile.x > 6 && clickedTile.y > 6)
-            return;
-        onTileSelect?.Invoke(tileGrid[clickedTile.x, clickedTile.y]); // Gets index of the selected tile and sends it to other scripts when the left mouse button is pressed
+        clickedTile = new Vector3Int(width, height, 0);
+        onTileSelect?.Invoke(-1);
+        tileIsClicked = false;
     }
 
-
-    // Uses id to figure out what tiles to add markers over
-    // Count is how many markers there will be
-    void AddMarkers(int id, int count, int marker)
-    {   
-        Vector3Int[] markerPositions = new Vector3Int[width * height];
-
-        int posAmmount = 0;
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < width; y++)
-            {
-                if (tileGrid[x, y] == id)
-                {   
-                    markerPositions[posAmmount] = new Vector3Int(x, y, 0);
-                    posAmmount++;
-                }
-            }
-        }
-
-        for (int i = 0; i < count; i++)
-        {
-            onPlaceMarker?.Invoke(markerPositions[i], marker);
-        }
+    void TileClicked()
+    {
+        if (clickedTile.x >= width || clickedTile.y >= height || clickedTile.x < 0 || clickedTile.y < 0)
+            return;
+        Debug.Log(clickedTile);
+        onTileSelect?.Invoke(tileGrid[clickedTile.x, clickedTile.y]); // Gets index of the selected tile and sends it to other scripts when the left mouse button is pressed
+        tileIsClicked = true;
     }
 
 
@@ -203,7 +211,7 @@ public class TilesHandler : MonoBehaviour
         float yCoord = (float)y / height * magnification + offSetY;
 
         float fIndex = Mathf.PerlinNoise(xCoord, yCoord); // Gets value of specific perlin coordinate
-        return Map(fIndex, GeneratedTilesAmmount, 1f); // Map float value to integers to be used in index array
+        return terrainTiles[Map(fIndex, terrainTiles.Length, 1f)]; // Map float value to integers to be used in index array
     }
 
 
@@ -263,29 +271,26 @@ public class TilesHandler : MonoBehaviour
             {
                 int tileId = tileGrid[x, y];
 
-                if (tileId == 9 || tileId == 10 || tileId == 11) // Check for seed
+                for (int i = 0; i < seedGrowthIds.Length - 1; i++)
                 {
-                    GrowSeed(tileId, x, y);
-
-                    if (tileId != 11)
+                    if (tileId == seedGrowthIds[i])
+                    {
+                        GrowSeed(tileId, x, y, (i));
                         SpreadSeed(tileId, x, y);
+                        i = seedGrowthIds.Length - 1;
+                    }
                 }
             }
         }
     }
 
     // Grows seeds
-    void GrowSeed(int id, int x, int y)
-    {
-        if (Percentage(seedGrowChance)) // seedGrowChance% chance of adjacent tile being spread to if it is barrenPlains
-        {
-            if (tileGrid[x, y] == 11) // Grow final seed growth phase to grass
-                tileGrid[x, y] = 3;
-
-            if (tileGrid[x, y] < 11 && tileGrid[x, y] >= 9) // Grow seed to next growth phase
-                tileGrid[x, y] = id + 1;
+    void GrowSeed(int id, int x, int y, int index)
+    {   
+        if (Percentage(seedGrowChance)) // seedGrowChance% chance of tile being grown
+        {   
+            tileGrid [x, y] = seedGrowthIds[index + 1];
         }
-
         CreateTiles();
     }
 
@@ -304,10 +309,10 @@ public class TilesHandler : MonoBehaviour
         {
             Vector2Int sTile = adjacentTiles[i];
 
-            if ((sTile.x < width && sTile.x >= 0 && sTile.y < height && sTile.y >= 0) && tileGrid[sTile.x, sTile.y] == 1) // Only spread to adjacent tile if it is inside the tileGrid and the selected adjacent tile is appropriate to spread to
+            if ((sTile.x < width && sTile.x >= 0 && sTile.y < height && sTile.y >= 0) && tileGrid[sTile.x, sTile.y] == seedSpreadableId) // Only spread to adjacent tile if it is inside the tileGrid and the selected adjacent tile is appropriate to spread to
             {
                 if (Percentage(seedSpreadChance)) // seedSpreadChance% chance of adjacent tile being spread to
-                    tileGrid[sTile.x, sTile.y] = 9;
+                    tileGrid[sTile.x, sTile.y] = seedGrowthIds[0];
             }
         }
         CreateTiles();
