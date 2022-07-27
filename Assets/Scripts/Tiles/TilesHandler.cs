@@ -28,6 +28,7 @@ public class TilesHandler : MonoBehaviour
     public event Action<int> onTileSelect;
     public event Action<int, bool> onTileSend;
     public event Action onResetMStats;
+    public event Action<Vector3Int, int> onPlaceMarker;
 
     Color defaultTileColour = new Color(1, 1, 1, 1);
     Color hoverTileColour = new Color(0.95f , 0.95f , 0.95f , 1);
@@ -47,14 +48,16 @@ public class TilesHandler : MonoBehaviour
         FindObjectOfType<MainBalancing>().onNewTurn += NewTurn;
         FindObjectOfType<MainBalancing>().onSendBalanceInfo += SetBalanceInfo;
         FindObjectOfType<MainBalancing>().resetClickedTile += TileClicked;
+        FindObjectOfType<MainBalancing>().onSendMarker += AddMarkers;
 
+        
         // Randomly offsets the perlin noise
         int offSetX = UnityEngine.Random.Range(0, 99999);
         int offSetY = UnityEngine.Random.Range(0, 99999);
 
         GenerateTileGrid(offSetX, offSetY);
         CreateTiles();
-        DetectAllCurrentTiles();
+        PlaceTile(new Vector2Int(UnityEngine.Random.Range(0, width), UnityEngine.Random.Range(0, height)), 29, true); // Places a town at random location on the grid
     }
 
     void Update()
@@ -142,6 +145,32 @@ public class TilesHandler : MonoBehaviour
     }
 
 
+    // Uses id to figure out what tiles to add markers over
+    // Count is how many markers there will be
+    void AddMarkers(int id, int count, int marker)
+    {   
+        Vector3Int[] markerPositions = new Vector3Int[width * height];
+
+        int posAmmount = 0;
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < width; y++)
+            {
+                if (tileGrid[x, y] == id)
+                {   
+                    markerPositions[posAmmount] = new Vector3Int(x, y, 0);
+                    posAmmount++;
+                }
+            }
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            onPlaceMarker?.Invoke(markerPositions[i], marker);
+        }
+    }
+
+
     // Adds tile to build to the tileGrid array
     void AddTileToBuild(int id)
     {
@@ -201,11 +230,20 @@ public class TilesHandler : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                int index = tileGrid[x, y];
+                int id = tileGrid[x, y];
 
-                tilemap.SetTile(new Vector3Int(x, y, 0), tiles[index]);
+                PlaceTile(new Vector2Int(x, y), id, false);
             }
         }
+    }
+
+    // Places tile corresponding to id at pos on the isometric grid
+    void PlaceTile(Vector2Int pos, int id, bool updateTileGrid)
+    {   
+        if (updateTileGrid)
+            tileGrid[pos.x, pos.y] = id;
+
+        tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), tiles[id]);
     }
 
     void NewTurn()

@@ -5,7 +5,9 @@ ScriptsOnlyBuild:
     - BuildingMenuScript
     - ButtonDetector
     - CameraScript
+    - CantAffordText
     - MainBalancing
+    - MarkerTilesHandler
     - StatTextPositioner
     - StatsScript
     - TilesHandler
@@ -15,9 +17,14 @@ ScriptsOnlyBuild:
     Unity.2D.PixelPerfect.dll:
     - UnityEngine.U2D.PixelPerfectCamera
     Unity.2D.Tilemap.Editor.dll:
+    - UnityEditor.Tilemaps.GridBrush
+    - UnityEditor.Tilemaps.GridBrushEditor
+    - UnityEditor.Tilemaps.GridPaintPaletteClipboard
+    - UnityEditor.Tilemaps.GridPaintPaletteWindow
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
     - UnityEditor.Tilemaps.GridPalettes
+    - UnityEditor.Tilemaps.PaintableSceneViewGrid
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.TileDragAndDropManager
     Unity.Rider.Editor.dll:
@@ -61,45 +68,49 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 614}
+      Script: {instanceID: 610}
+    - Class: 114
+      Script: {instanceID: 11362}
     - Class: 114
       Script: {instanceID: 11366}
     - Class: 114
-      Script: {instanceID: 11370}
+      Script: {instanceID: 11432}
     - Class: 114
-      Script: {instanceID: 11436}
+      Script: {instanceID: 11468}
     - Class: 114
-      Script: {instanceID: 11472}
+      Script: {instanceID: 11652}
     - Class: 114
-      Script: {instanceID: 11656}
+      Script: {instanceID: 11720}
     - Class: 114
-      Script: {instanceID: 11724}
+      Script: {instanceID: 11780}
     - Class: 114
-      Script: {instanceID: 11784}
+      Script: {instanceID: 11996}
     - Class: 114
-      Script: {instanceID: 12000}
+      Script: {instanceID: 12210}
     - Class: 114
-      Script: {instanceID: 12214}
+      Script: {instanceID: 12366}
     - Class: 114
-      Script: {instanceID: 12370}
+      Script: {instanceID: 12512}
     - Class: 114
-      Script: {instanceID: 12568}
+      Script: {instanceID: 12566}
     - Class: 114
-      Script: {instanceID: 12632}
+      Script: {instanceID: 12630}
     - Class: 114
-      Script: {instanceID: 12874}
+      Script: {instanceID: 12872}
     - Class: 114
-      Script: {instanceID: 12996}
+      Script: {instanceID: 12994}
     - Class: 114
-      Script: {instanceID: 13452}
+      Script: {instanceID: 13450}
     - Class: 114
-      Script: {instanceID: 13460}
+      Script: {instanceID: 13458}
     - Class: 114
-      Script: {instanceID: 13646}
+      Script: {instanceID: 13644}
     - Class: 114
-      Script: {instanceID: 14226}
+      Script: {instanceID: 14224}
     - Class: 114
-      Script: {instanceID: 14398}
+      Script: {instanceID: 14396}
+    - Class: 114
+      Script: {instanceID: 14422}
     - Class: 114
       Script: {instanceID: 14964}
     - Class: 114
@@ -353,6 +364,12 @@ ScriptsOnlyBuild:
     className: Shadow
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CantAffordText
+  - hash:
+      serializedVersion: 2
       Hash: cc4274b586df3c02688bac01b88bd16c
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -551,6 +568,12 @@ ScriptsOnlyBuild:
     className: GraphicRaycaster
   - hash:
       serializedVersion: 2
+      Hash: d97ec1e6c16752cb66310418755fbfb7
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MarkerTilesHandler
+  - hash:
+      serializedVersion: 2
       Hash: 8e6ceabfd38a184413d69b7db56c89cc
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools
@@ -672,4 +695,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: D:/Luke/ReTerra/Builds/ReTerra.exe
+  playerPath: /media/zmyww/T7/Luke/ReTerra/Builds/ReTerra.exe

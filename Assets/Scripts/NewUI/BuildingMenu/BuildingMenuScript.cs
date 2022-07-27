@@ -26,6 +26,8 @@ public class BuildingMenuScript : MonoBehaviour
 
     RectTransform myRTransform;
 
+    public event Action<Vector3> onSendProperties;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -82,9 +84,22 @@ public class BuildingMenuScript : MonoBehaviour
         if (isOpen)
         {
             myRTransform.anchoredPosition = openedPosition; // Open menu
+            SendProperties();
             return;
         }
+        SendProperties();
         myRTransform.anchoredPosition = closedPosition; // Close menu
+    }
+
+    // Send properties for can't afford text
+    // x and y are for container position
+    // z is for ui scale
+    void SendProperties()
+    {
+        Vector3 properties = myRTransform.anchoredPosition;
+        properties.z = uiScale;
+
+        onSendProperties?.Invoke(properties);
     }
 
 
@@ -93,6 +108,9 @@ public class BuildingMenuScript : MonoBehaviour
     {
         // Hides building menu if escape is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
+        {
             MenuOpen(false, false);
+        }
+            
     }
 }

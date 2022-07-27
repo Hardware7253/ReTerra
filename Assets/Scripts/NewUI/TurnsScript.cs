@@ -17,10 +17,17 @@ public class TurnsScript : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        FindObjectOfType<MainBalancing>().onSetUiScale += SetUiScale;
+
         myRTransform = gameObject.GetComponent<RectTransform>();
         SetScalePos();
         SetTurnText();
+    }
+
+    void SetUiScale(int scale)
+    {
+        uiScale = scale;
     }
 
     // Set the scale and position of the turns button

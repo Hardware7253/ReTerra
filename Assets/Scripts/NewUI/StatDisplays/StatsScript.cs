@@ -115,7 +115,7 @@ public class StatsScript : MonoBehaviour
     // Set text of stats displays
     // Make changing of stats more smooth at some point
     void SetStatText(int display, int supply, int demand, bool isSupDem, Color color)
-    {
+    {   
         if (display >= statsDisplays.Length)
         {
             Text cText = currencyDisplay.GetComponentInChildren<Text>();
