@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
-using UnityEngine;
+using UnityEngine;              
 
 public class MainBalancing : MonoBehaviour
 {
     int turn;
     int uiScale = 5;
 
-    float powerPerPerson = 0.001f; // Power consumed per person
+    float powerPerPerson = 0.003f; // Power consumed per person
     float currencyPerPerson = 0.001f; // Currency make per person
 
     int tileGrowChancePerTurn = 50; // Percentage chance of a seed growing per turn
@@ -68,6 +68,16 @@ public class MainBalancing : MonoBehaviour
         FindObjectOfType<ButtonDetector>().hoveredButtons += SetHoveredBMButton;
 
         SelStats(-1, true);
+
+        /*
+            Future me.
+            The town should be part of the stats display because it is too confusing at the moment.
+            It should only visibly be part of the stats display though. So it doesn't take power priority over something
+            that actaully needs it.
+
+            THANK YOU ME YOU ARE AWESOME. HOT DAMN MY KEYBOARD SOUNDS AWESOME RIGHT NOW. I JUST WANT TO KEEP ON TYPING.
+            BUT I CANNOT. CAPS MY BAD. JK SHIFT. OK I AM STOPPING NOW. GOOD BYE.
+        */
     }
 
 
@@ -228,7 +238,8 @@ public class MainBalancing : MonoBehaviour
     // Look up table for tiles that can be built on selected tile
     // E.g. Index {1, 3, 5} can be built on index 2
     int[] SetButtonsId(int id)
-    {
+    {   
+        // 2D array makes better
         switch (id)
         {
             case 0: // Water
@@ -256,59 +267,25 @@ public class MainBalancing : MonoBehaviour
 
     // Gets the text for a button from an ID
     string IdToString(int id)
-    {
-        string text;
-        switch (id)
+    {   string text;
+
+        // Each string corresponds to a tile id
+        string[] tileNames = new string[]
         {
-            case 0: // Water
-                text = "Water";
-                break;
+            "Town",               "Water",     "Rocks",             "Barren Plains",      "Seeds",
+            "Seeds",              "Seeds",     "Plains",            "Park",               "Forest",
+            "10",                 "11",        "12",                "13",                 "14",
+            "15",                 "16",        "17",                "Hydro Turbine Mk.1", "Hydro Turbine Mk.2",
+            "Hydro Turbine Mk.3", "21",        "Wind Turbine Mk.1", "Wind Turbine Mk.2",  "Wind Turbine Mk.3",
+            "25",                 "Mine Mk.1", "Mine Mk.2",         "28",                 "Coal Plant Mk.1",
+            "Coal Plant Mk.2",    "31",        "32",                "33",                 "34",
+            "35",                 "36",        "37",                "38",                 "39",
+            "40",                 "41"
+        };
 
-            case 1: // Barren Plains
-                text = "Barren Plains";
-                break;
-
-            case 2: // Rocks
-                text = "Rocks";
-                break;
-
-            case 3: // Plains
-                text = "Plains";
-                break;
-
-            case 8: // Trees
-                text = "Trees";
-                break;
-
-            case 9: // Seeds
-                text = "Seeds";
-                break;
-
-            case 19: // Wind Turbine
-                text = "Wind Turbine";
-                break;
-
-            case 20: // Hydro Turbine
-                text = "Hydro Turbine";
-                break;
-
-            case 23: // Coal Plant
-                text = "Coal Plant";
-                break;
-
-            case 24: // Mines
-                text = "Mines";
-                break;
-
-            case 29: // Town
-                text = "Town";
-                break;
-
-
-            default:
-                text = null;
-                break;
-        }
+        text = null;
+        if (id < tileNames.Length)
+            text = tileNames[id];
         return text;
     }
 
@@ -327,6 +304,8 @@ public class MainBalancing : MonoBehaviour
 
         int[] statsArray;
 
+        /*
+        Old shit delete later
         switch (id)
         {
             case 0: // Water, non building
@@ -413,8 +392,218 @@ public class MainBalancing : MonoBehaviour
                 environment = 0;
                 break;
         }
+        */
 
-        statsArray = new int[] {currency, coal, power, environment};
+        /*  
+            2D array defines stats for each tile
+            Each sub array represent a tile id, the id is the sub arrays position in the master array
+            Each element in the sub array represents a stat impact
+            Element 0 of the sub array is the currency impact
+            Element 1 of the sub array is the coal impact
+            Element 2 of the sub array is the power impact
+            Element 3 of the sub array is the environment impact
+        */
+        int[,] tileStatsArray = new int[,]
+        {
+            {0, 0, 0, 0}, // Town
+            {0, 0, 0, 1}, // Water
+            {0, 0, 0, 0}, // Rocks
+            {0, 0, 0 -1}, // Barren Plains
+            {-5, 0, 0, 0}, // Seeds
+            {0, 0, 0, 0}, // Seeds (Growing1)
+            {0, 0, 0, 0}, // Seeds (Growing2)
+            {0, 0, 0, 1}, // Plains
+            {-10, 0, 0, 4}, // Park
+            {-13, 0, 0, 10}, // Forest
+            {0, 0, 0, 0}, // 10
+            {0, 0, 0, 0}, // 11
+            {0, 0, 0, 0}, // 12
+            {0, 0, 0, 0}, // 13
+            {0, 0, 0, 0}, // 14
+            {0, 0, 0, 0}, // 15
+            {0, 0, 0, 0}, // 16
+            {0, 0, 0, 0}, // 17
+            {-12, 0, 3, -1}, // Hydro Turbine Mk.1
+            {-15, 0, 8, -2}, // Hydro Turbine Mk.2
+            {-17, 0, 16, -4}, // Hydro Turbine Mk.3
+            {0, 0, 0, 0}, // 21
+            {-10, 0, 2, -1}, // Wind Turbine Mk.1
+            {-12, 0, 8, -2}, // Wind Turbine Mk.2
+            {-15, 0, 14, -3}, // Wind Turbine Mk.3
+            {0, 0, 0, 0}, // 25
+            {-10, 4, -4, -3}, // Mine Mk.1
+            {-23, 12, -14, -6}, // Mine Mk.2
+            {0, 0, 0, 0}, // 28
+            {-20, -2, 8, -6}, // Coal Plant Mk.1
+            {-30, -4, 18, -12}, // Coal Plant Mk.2
+            {0, 0, 0, 0}, // 31
+            {0, 0, 0, 0}, // 32
+            {0, 0, 0, 0}, // 33
+            {0, 0, 0, 0}, // 34
+            {0, 0, 0, 0}, // 35
+            {0, 0, 0, 0}, // 36
+            {0, 0, 0, 0}, // 37
+            {0, 0, 0, 0}, // 38
+            {0, 0, 0, 0}, // 39
+            {0, 0, 0, 0}, // 40
+        };
+
+        switch (id)
+        {
+            case 0: // Town, Building
+                currency = currencyMake;
+                coal = 0;
+                power = powerConsume * -1;
+                environment = 0;
+                break;
+
+            case 1: // Water, Non Building
+                currency = 0;
+                coal = 0;
+                power = 0;
+                environment = 1;
+                break;
+
+            case 2: // Rocks, Non Building
+                currency = 0;
+                coal = 0;
+                power = 0;
+                environment = 0;
+                break;
+
+            case 3: // Barren PLains, Non Building
+                currency = 0;
+                coal = 0;
+                power = 0;
+                environment = -1;
+                break;
+
+            case 4: // Seeds, Building
+                currency = -5;
+                coal = 0;
+                power = 0;
+                environment = 0;
+                break;
+
+            case 5: // Seeds (Growing1), Building
+                currency = 0;
+                coal = 0;
+                power = 0;
+                environment = 0;
+                break;
+
+            case 6: // Seeds (Growing2), Building
+                currency = 0;
+                coal = 0;
+                power = 0;
+                environment = 0;
+                break;
+
+            case 7: // Plains, Building
+                currency = 0;
+                coal = 0;
+                power = 0;
+                environment = 1;
+                break;
+
+            case 8: // Park, Building
+                currency = -10;
+                coal = 0;
+                power = 0;
+                environment = 4;
+                break;
+
+            case 9: // Forest, Building
+                currency = -20;
+                coal = 0;
+                power = 0;
+                environment = 10;
+                break;
+
+            case 18: // Hydro Turbine Mk.1, Building
+                currency = -12;
+                coal = 0;
+                power = 3;
+                environment = -1;
+                break;
+
+            case 19: // Hydro Turbine Mk.2, Building
+                currency = -20;
+                coal = 0;
+                power = 8;
+                environment = -2;
+                break;
+            
+            case 20: // Hydro Turbine Mk.3, Building
+                currency = -30;
+                coal = 0;
+                power = 16;
+                environment = -4;
+                break;
+            
+            case 22: // Wind Turbine Mk.1, Building
+                currency = -10;
+                coal = 0;
+                power = 2;
+                environment = -1;
+                break;
+            
+            case 23: // Wind Turbine Mk.2, Building
+                currency = -20;
+                coal = 0;
+                power = 7;
+                environment = -2;
+                break;
+            
+            case 24: // Wind Turbine Mk.3, Building
+                currency = -40;
+                coal = 0;
+                power = 15;
+                environment = -3;
+                break;
+            
+            case 26: // Mine Mk.1, Building
+                currency = -10;
+                coal = 4;
+                power = -4;
+                environment = -3;
+                break;
+            
+            case 27: // Mine Mk.2, Building
+                currency = -20;
+                coal = 12;
+                power = -14;
+                environment = -6;
+                break;
+            
+            case 29: // Coal Plant Mk.1, Building
+                currency = -20;
+                coal = -2;
+                power = 8;
+                environment = -6;
+                break;
+
+            case 30: // Coal Plant Mk.2, Building
+                currency = -30;
+                coal = -4;
+                power = 18;
+                environment = -12;
+                break;
+
+            default:
+                currency = 0;
+                coal = 0;
+                power = 0;
+                environment = 0;
+                break;
+        }
+
+        statsArray = tileStatsArray[id];
+
+        // Town stats aren't in the array
+        if (id == 0)
+            statsArray = new int[] {currencyMake, 0, powerConsume * -1, 0};
+
         if (!includeCurrency)
             statsArray = new int[] {0, coal, power, environment};
 
@@ -475,32 +664,48 @@ public class MainBalancing : MonoBehaviour
     // Updates markers
     void DoMarkers()
     {   
-        // Coal plant require markers because they depend on coal to function
-        int cPlantId = 23;
-        int cPlantReqCMarkers = CalcMarkers(cPlantId)[0];
-        int[] cPlantStats = TileStats(cPlantId, false);
+        /*  
+            2D array for tiles that could potentially require markers
+            Each sub array represents a tile
+            Element 0 of the sub array is the tile id
+            Element 1 of the sub array is the required markers (this is calculated so they have a default of 0)
+            Element 2 of the sub array is the marker type (0 = coal marker, 1 = power marker)
+            Element 3 of the sub array is the stat type the tile produces (0 = currency, 1 = coal, 2 = power, 3 = environment)
+        */
+        int[,] idsReqMarkers = new int[5, 4]
+        {
+            {0,  0, 1, 0}, // Town
+            {26, 0, 1, 1}, // Mine Mk.1
+            {27, 0, 1, 1}, // Mine Ml.2
+            {29, 0, 0, 2}, // Coal Plant Mk.1
+            {30, 0, 0, 2}  // Coal Plant Mk.2
+        };
 
-        // Mines require markers because they depend on power to function
-        int mineId = 24;
-        int mineReqPMarkers = CalcMarkers(mineId)[1];
-        int[] mineStats = TileStats(mineId, false);
+        // Gets dimensions of the above array
+        Vector2Int idsRMDimensions = new Vector2Int(idsReqMarkers.GetLength(0), idsReqMarkers.GetLength(1));
 
-        // Check if town marker should be on/off
-        int townId = 29;
-        int townReqMarkers = 1;
-        if (gPower - gReqPower >= powerConsume)
-            townReqMarkers = 0;
-
-
-        // Set markers
         onResetMarker?.Invoke();
-        onSendMarker?.Invoke(cPlantId, cPlantReqCMarkers, 0);
-        onSendMarker?.Invoke(mineId, mineReqPMarkers, 1);
-        onSendMarker?.Invoke(townId, townReqMarkers, 1);
-        
-        gPower -= cPlantReqCMarkers * cPlantStats[2];
+        for (int i = 0; i < idsRMDimensions.x; i++)
+        {   
+            idsReqMarkers[i, 1] = CalcMarkers(idsReqMarkers[i, 0])[idsReqMarkers[i, 2]]; // Get required markers for id at i position, put required markers into position 1 of the 2nd array
+            onSendMarker?.Invoke(idsReqMarkers[i, 0], idsReqMarkers[i, 1], idsReqMarkers[i, 2]); // Set markers for id at i position in array
 
-        gCoal -= mineReqPMarkers * mineStats[1];
+            // Negate impact of id from master stats
+            int impact = idsReqMarkers[i, 1] * TileStats(idsReqMarkers[i, 0], false)[idsReqMarkers[i, 3]];
+            switch (idsReqMarkers[i, 3]) // Switch makes sure the right stat is impacted
+            {
+                case 1:
+                    gPower -= impact;
+                    break;
+
+                case 2:
+                    gCoal -= impact;
+                    break;
+
+                default:
+                    break;
+            }
+        }
 
         SetMasterStats();
     }
@@ -613,12 +818,12 @@ public class MainBalancing : MonoBehaviour
         int negPopulationImpact = 0;
         float hapiness = gHapiness;
         if (gHapiness == 0)
-            hapiness = 0.1f;
+            hapiness = 0.01f;
 
         // Calculate negative population impact if the townspeople are very unhappy
         if (turnsVeryUnhappy > 0)
         {   
-            negPopulationImpact = (int)Mathf.Ceil((turnsVeryUnhappy * turn) * -2);
+            negPopulationImpact = (int)Mathf.Ceil((turnsVeryUnhappy * turn) * -3);
         }
         
         // Calculate population
@@ -642,10 +847,10 @@ public class MainBalancing : MonoBehaviour
     {
         float hapiness = gHapiness;
         if (gHapiness == 0)
-            hapiness = 0.1f;
+            hapiness = 0.01f;
 
-        currencyMake = (int)Mathf.Ceil((gPopulation *currencyPerPerson * 2) * hapiness);
-        gCurrency += currencyMake;
+        currencyMake = (int)Mathf.Ceil((gPopulation * currencyPerPerson) * hapiness);
+        gCurrency += 0;
     }
 
 
