@@ -1,3 +1,5 @@
+/*
+
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,7 +52,7 @@ public class StatDispController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     // Scale size of the stat displays with larger screens
@@ -99,3 +101,6 @@ public class StatDispController : MonoBehaviour
         statDisplays[display].GetComponentInChildren<Text>().text = supply.ToString() + " / " + demand.ToString();
     }
 }
+
+
+*/

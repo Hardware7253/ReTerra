@@ -25,14 +25,9 @@ public class StatsScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        FindObjectOfType<MainBalancing>().onSetStatsImpact += SetStatText;
         displayPositions = new Vector2[statsDisplays.Length + 2];
-        ShowStats(true);
-
-        SetStatText(0, 0, 10);
-        SetStatText(1, 1, 10);
-        SetStatText(2, 2, 10);
-        SetStatText(3, 3, 10);
-        SetStatText(4, 4, 10);
+        ShowStats(statMenuOpen);
     }
 
     // Update is called once per frame
@@ -41,7 +36,7 @@ public class StatsScript : MonoBehaviour
 
     }
 
-    
+
     // Container for all things relating to the scaling and positioning of the stats displays
     void ShowStats(bool active)
     {
@@ -59,7 +54,7 @@ public class StatsScript : MonoBehaviour
                 // Disable every stats display apart from currency
                 for (int i = 0; i < statsDisplays.Length; i++)
                 {
-                    statsDisplays[i].GetComponent<Image>().enabled = false; 
+                    statsDisplays[i].GetComponent<Image>().enabled = false;
                     statsDisplays[i].GetComponentInChildren<Text>().enabled = false;
                 }
 
@@ -101,17 +96,21 @@ public class StatsScript : MonoBehaviour
         }
     }
 
-    
+
     // Set text of stats displays
-    void SetStatText(int display, int supply, int demand)
+    public void SetStatText(int display, int supply, int demand, bool isSupDem, Color color)
     {
         if (display >= statsDisplays.Length)
         {
             currencyDisplay.GetComponentInChildren<Text>().text = " " + supply;
+            currencyDisplay.GetComponentInChildren<Text>().color = color;
             return;
         }
         statsDisplays[display].GetComponentInChildren<Text>().text = " " + supply + "/" + demand;
+
+        if (!isSupDem)
+            statsDisplays[display].GetComponentInChildren<Text>().text = " " + supply; // Ignore demand if the display mode is not supply/demand
+        statsDisplays[display].GetComponentInChildren<Text>().color = color;
     }
 
-    
 }

@@ -41,9 +41,9 @@ public class TilesHandler : MonoBehaviour
     void Start()
     {
         //FindObjectOfType<CheckUIHovers>().gameUIHovered += SetGameUIHover;
-        //FindObjectOfType<BMController>().onBuildButtonPressed += AddTileToBuild;
-        //FindObjectOfType<MainBalancing>().onNewTurn += NewTurn;
-        //FindObjectOfType<MainBalancing>().onSendBalanceInfo += SetBalanceInfo;
+        FindObjectOfType<MainBalancing>().onBuildButtonPressed += AddTileToBuild;
+        FindObjectOfType<MainBalancing>().onNewTurn += NewTurn;
+        FindObjectOfType<MainBalancing>().onSendBalanceInfo += SetBalanceInfo;
 
         // Randomly offsets the perlin noise
         int offSetX = UnityEngine.Random.Range(0, 99999);
@@ -68,7 +68,7 @@ public class TilesHandler : MonoBehaviour
         seedGrowChance = seedGrowChanceL;
         seedSpreadChance = seedSpreadChanceL;
     }
-    
+
 
 
     // Handles interactions between the user and the tiles
@@ -93,7 +93,7 @@ public class TilesHandler : MonoBehaviour
                 // If the current tile is clicked set its color to the click color
                 if (new Vector3Int(x, y, 0) == clickedTile)
                     tilemap.SetColor(clickedTile, clickTileColour);
-                    
+
 
                 // If the current tile is not clicked set its color to the default color
                 if (new Vector3Int(x, y, 0) != clickedTile)
@@ -116,17 +116,19 @@ public class TilesHandler : MonoBehaviour
                 }
 
             }
-            
 
         }
-        
+
     }
 
 
     // Adds tile to build to the tileGrid array
     void AddTileToBuild(int id)
     {
+        // Sets current clicked tile to new id
         tileGrid[clickedTile.x, clickedTile.y] = id;
+        OnTilePressed?.Invoke(id);
+
         CreateTiles();
     }
 
@@ -224,7 +226,7 @@ public class TilesHandler : MonoBehaviour
             if (tileGrid[x, y] < 11 && tileGrid[x, y] >= 9) // Grow seed to next growth phase
                 tileGrid[x, y] = id + 1;
         }
-            
+
         CreateTiles();
     }
 

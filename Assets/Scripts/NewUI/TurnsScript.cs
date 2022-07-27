@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TurnsScript : MonoBehaviour
 {
+    int turn = 0;
     float uiScale = 5;
 
     int fontSize = 14;
 
+    public event Action<int> onTurnUpdate;
     RectTransform myRTransform;
     Vector2 referenceSize = new Vector2(60, 30);
 
@@ -17,7 +20,7 @@ public class TurnsScript : MonoBehaviour
     {
         myRTransform = gameObject.GetComponent<RectTransform>();
         SetScalePos();
-        SetTurnText(1000);
+        SetTurnText();
     }
 
     // Set the scale and position of the turns button
@@ -31,9 +34,18 @@ public class TurnsScript : MonoBehaviour
         myRTransform.anchoredPosition = new Vector2(-sizePostScale.x, sizePostScale.y); // Set button position
     }
 
-    void SetTurnText(int turn)
+    // Set turn text
+    void SetTurnText()
     {
         gameObject.GetComponentInChildren<Text>().text = "Turn: " + turn + "\n" + "Advance?";
+    }
+
+    // Increment turn
+    public void IncrementTurn()
+    {
+        turn++;
+        onTurnUpdate?.Invoke(turn);
+        SetTurnText();
     }
 
     // Update is called once per frame
