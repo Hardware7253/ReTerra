@@ -7,7 +7,10 @@ public class MainBalancing : MonoBehaviour
 {
     int turn;
     int uiScale = 5;
-    float powerPerPerson = 0.0001f;
+
+    float powerPerPerson = 0.001f; // Power consumed per person
+    float currencyPerPerson = 0.001f; // Currency make per person
+
     int tileGrowChancePerTurn = 50; // Percentage chance of a seed growing per turn
     int seedSpreadChancePerAdjacentTile = 50; // Percentage chance of a seed spreading to an adjacent tile per turn
 
@@ -19,8 +22,12 @@ public class MainBalancing : MonoBehaviour
     bool sHover;
     bool pHover;
 
+
+    int turnsVeryUnhappy = 0;
+
+
     // Global stats
-    int gCurrency = 1000;
+    int gCurrency = 12;
     int gCoal = 0, gReqCoal = 0;
     int gPower = 0, gReqPower = 0;
     int gEnvironment = 0;
@@ -28,9 +35,11 @@ public class MainBalancing : MonoBehaviour
     float gHapiness = 0f;
 
     // Town stats
-    int currencyMake = 6;
-    int powerConsume = 4;
-    int startPopulation = 100;
+    int currencyMake = 0;
+    int powerConsume = 0;
+    int startPopulation = 200; // Not the actual starting population number, but this does have an affect on the starting population
+
+    int minPopulation = 20;
 
     public event Action<int, int> onSendBalanceInfo; // Event responsible for sending balancing info to other scripts
     public event Action onNewTurn; // Called whenever there is a new turn so all scripts can keep track
@@ -66,10 +75,7 @@ public class MainBalancing : MonoBehaviour
     {
         turn++;
         onNewTurn?.Invoke();
-
-        DoMarkers();
-        CalcHapiness();
-        CalcPopulation();
+        // Deselect tile
     }
 
     void SetHoveredBMButton(int button, bool isHovered)
@@ -455,8 +461,12 @@ public class MainBalancing : MonoBehaviour
 
 
         if (shouldUpdate)
-        {
-            // Calculations for power, hapiness, etc should go here
+        {   
+            DoMarkers();
+            CalcHapiness();
+            CalcPopulation();
+            CalcPeopleUsedPower();
+            CalcCurrencyMake();
             SetMasterStats();
         }
 
@@ -562,53 +572,81 @@ public class MainBalancing : MonoBehaviour
         
     }
 
-    // Sets the town stats
-    void SetTownStats()
-    {
-        powerConsume = CalcPeopleUsedPower(gPopulation);
-        currencyMake = 0;
-    }
-
     // Calculate town hapiness
     void CalcHapiness()
     {
         int hapiness = 0;
         int excessPower = gPower - gReqPower;
 
-        hapiness += gEnvironment;
-        hapiness += excessPower;
+        hapiness += (int)Mathf.Ceil(gEnvironment * 1.75f);
+        hapiness += (int)Mathf.Ceil(excessPower * 1.65f);
 
+        // Hapiness cannot be less that 0, also increment turns very unhappy
         if (hapiness < 0)
-           hapiness = 0;
+        {
+            hapiness = 0;
+            turnsVeryUnhappy++;
+        }
 
-        gHapiness = MapIntFloat(100, hapiness);  
+        // Reset turns that the people have been very unhappy
+        if (hapiness > 0)
+        {
+            turnsVeryUnhappy = 0;
+        }  
+
+        gHapiness = MapIntFloat(100, hapiness); 
+
+        if (gHapiness > 1)
+            gHapiness = 1;
     }
 
     // Maps an integer value to a float value
-    float MapIntFloat(int max, int val)
+    float MapIntFloat(int divide, int val)
     {   
-        float outVal = (float)val / max;
+        float outVal = (float)val / divide;
         return outVal;
     }
 
     // Calculate town population
     void CalcPopulation()
     {   
+        int negPopulationImpact = 0;
         float hapiness = gHapiness;
         if (gHapiness == 0)
             hapiness = 0.1f;
 
-        //gPopulation += (gPopulation * gPopulation) * hapiness;
-        Debug.Log((startPopulation * turn) * hapiness);
+        // Calculate negative population impact if the townspeople are very unhappy
+        if (turnsVeryUnhappy > 0)
+        {   
+            negPopulationImpact = (int)Mathf.Ceil((turnsVeryUnhappy * turn) * -2);
+        }
+        
+        // Calculate population
+        gPopulation += (int)Mathf.Ceil((startPopulation * turn) * (hapiness * 2)) + negPopulationImpact;
+
+        // Make sure population does not go below minimum population
+        if (gPopulation < minPopulation)
+        {
+            gPopulation = minPopulation;
+        }
     }
 
     // Calculate the ammount of power that is needed for the current population
-    int CalcPeopleUsedPower(int population)
+    void CalcPeopleUsedPower()
     {
-        return (int)Mathf.Ceil(population * powerPerPerson); // Multiply population by power used per person, round up to the nearest int
+        powerConsume = (int)Mathf.Ceil(gPopulation * powerPerPerson); // Multiply population by power used per person, round up to the nearest int
     }
 
-    
+
+    void CalcCurrencyMake()
+    {
+        float hapiness = gHapiness;
+        if (gHapiness == 0)
+            hapiness = 0.1f;
+
+        currencyMake = (int)Mathf.Ceil((gPopulation *currencyPerPerson * 2) * hapiness);
+        gCurrency += currencyMake;
+    }
 
 
     // Update is called once per frame
