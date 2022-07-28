@@ -20,7 +20,8 @@ public class SliderTextScript : MonoBehaviour
 
         // Whenever the slider value is changed update the text with the new value
         slider.onValueChanged.AddListener((value) => 
-        {
+        {   
+            //FindObjectOfType<AudioManager>().PlaySound("UIHover"); 
             sliderText.text = value.ToString();
         });
     }

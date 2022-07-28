@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;              
@@ -161,21 +161,14 @@ public class MainBalancing : MonoBehaviour
     };
 
 
-    /*  
-        2D array for tiles that could potentially require markers
-        Each sub array represents a tile
-        Element 0 of the sub array is the tile id
-        Element 1 of the sub array is the required markers (this is calculated so they have a default of 0)
-        Element 2 of the sub array is the marker type (0 = coal marker, 1 = power marker)
-        Element 3 of the sub array is the stat type the tile produces (0 = currency, 1 = coal, 2 = power, 3 = environment)
-    */
-    int[,] idsReqMarkers = new int[,]
+    // Array of tiles that could potentially require markers
+    int[] idsReqMarkers = new int[]
     {
-        {0,  0, 1, 0}, // Town
-        {26, 0, 1, 1}, // Mine Mk.1
-        {27, 0, 1, 1}, // Mine Ml.2
-        {29, 0, 0, 2}, // Coal Plant Mk.1
-        {30, 0, 0, 2}  // Coal Plant Mk.2
+        0,  // Town
+        26, // Mine Mk.1
+        27, // Mine Ml.2
+        29, // Coal Plant Mk.1
+        30, // Coal Plant Mk.2
     };
 
     // Each element in the array shows the consumption of all tiles on a stat
@@ -184,7 +177,7 @@ public class MainBalancing : MonoBehaviour
     int[] tilesConsumption = new int[] {0, 0, 0, 0};
 
 
-    int turn;
+    public static int turn;
     public static int uiScale = 5;
 
     float powerPerPerson = 0.003f; // Power consumed per person
@@ -241,7 +234,7 @@ public class MainBalancing : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
+    {   
         FindObjectOfType<TilesHandler>().onTileSelect += UpdateButtons;
         FindObjectOfType<TilesHandler>().onTileSend += TileStatsImpact;
         FindObjectOfType<TilesHandler>().onResetMStats += ResetMasterStats;
@@ -251,17 +244,7 @@ public class MainBalancing : MonoBehaviour
 
         /*
             Future me.
-            The town should be part of the stats display because it is too confusing at the moment.
-            It should only visibly be part of the stats display though. So it doesn't take power priority over something
-            that actaully needs it.
-
-            THANK YOU ME YOU ARE AWESOME. HOT DAMN MY KEYBOARD SOUNDS AWESOME RIGHT NOW. I JUST WANT TO KEEP ON TYPING.
-            BUT I CANNOT. CAPS MY BAD. JK SHIFT. OK I AM STOPPING NOW. GOOD BYE.
-
-            Yo also the population and money calculations are broken
-            Have fun.
-
-            Markers busted
+            Also replace lots of events with public static variables
         */
     }
 
@@ -354,10 +337,14 @@ public class MainBalancing : MonoBehaviour
             SelStats(buttonIds[button], false); // Set the stats displays to show the stats of the new tile
             onBuildButtonPressed?.Invoke(selId); // Place new tile
 
-            // Update
+            // Update the hovered building menu button, because the tile the button represents can change after a tile has been built
+            // Even though the button being hovered is the same, the text is different, that's why it has to be updated
             SetHoveredBMButton(button, true, true);
+            return;
         }
         
+        // If the tile cannot be built play the error sound
+        FindObjectOfType<AudioManager>().PlaySound("Error");
     }
 
     // Returns true if the given tile id is affordable with the players current ammount of currency
@@ -552,7 +539,7 @@ public class MainBalancing : MonoBehaviour
                 if (IdReqMarker(selId)) // Check if the selected id is an id in the idsReqMarkers array
                 {   
                     
-                    if (selId != idsReqMarkers[0, 0])
+                    if (selId != idsReqMarkers[0])
                     {   
                         int idMarkerType = CalcMarker(selId); // Calculate what type of marker the selected id needs
                         if (idMarkerType == 0 || idMarkerType == 1) // Marker types that aren't 0 or 1 are invalid
@@ -560,7 +547,7 @@ public class MainBalancing : MonoBehaviour
                     }
                     
                     // Town markers are calculated seperately from different markers so they do not take priority over something more important
-                    if (selId == idsReqMarkers[0, 0])
+                    if (selId == idsReqMarkers[0])
                         townPos = new Vector3Int(x, y, 0);
                 } 
             }
@@ -576,9 +563,9 @@ public class MainBalancing : MonoBehaviour
     bool IdReqMarker(int id)
     {   
         bool idReqMarker = false;
-        for (int i = 0; i < idsReqMarkers.GetLength(0); i++)
+        for (int i = 0; i < idsReqMarkers.Length; i++)
         {
-            if (id == idsReqMarkers[i, 0])
+            if (id == idsReqMarkers[i])
                 idReqMarker = true;
         }
         return idReqMarker;
@@ -601,8 +588,6 @@ public class MainBalancing : MonoBehaviour
         {   
             if (consProd[i] == -1)
             {   
-                Debug.Log(id);
-                Debug.Log(new Vector3(globalStats[i],  tilesConsumption[i],  idStats[i]));
                 // Check if there is not enough of a stat produced globally to sustain the consumption of the given tile id
                 if (globalStats[i] + tilesConsumption[i] + idStats[i] < 0)
                 {   

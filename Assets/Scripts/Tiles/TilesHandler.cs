@@ -62,10 +62,9 @@ public class TilesHandler : MonoBehaviour
 
     public static bool tileIsClicked;
 
-    bool gameUIHovered;
-
-
     int seedGrowChance, seedSpreadChance;
+
+    Vector3Int pTilePos = new Vector3Int(-1, -1, 0); // Previous selected tile position
 
 
     void Start()
@@ -74,12 +73,11 @@ public class TilesHandler : MonoBehaviour
         FindObjectOfType<MainBalancing>().onNewTurn += NewTurn;
         FindObjectOfType<MainBalancing>().onSendBalanceInfo += SetBalanceInfo;
         FindObjectOfType<MainBalancing>().resetClickedTile += TileClicked;
-        //FindObjectOfType<MainBalancing>().onSendMarker += AddMarkers;
 
         
         // Randomly offsets the perlin noise
-        int offSetX = UnityEngine.Random.Range(0, 99999);
-        int offSetY = UnityEngine.Random.Range(0, 99999);
+        int offSetX = UnityEngine.Random.Range(0, 99999 * width);
+        int offSetY = UnityEngine.Random.Range(0, 99999 * height);
 
         GenerateTileGrid(offSetX, offSetY);
         CreateTiles();
@@ -89,11 +87,6 @@ public class TilesHandler : MonoBehaviour
     void Update()
     {
         TileMouseInteractions();
-    }
-
-    void SetGameUIHover(bool isHovered)
-    {
-        gameUIHovered = isHovered;
     }
 
     void SetBalanceInfo(int seedGrowChanceL, int seedSpreadChanceL)
@@ -147,18 +140,22 @@ public class TilesHandler : MonoBehaviour
         {
             if (!IsMouseOverUi())
             {
-                // Changes hovered tile color
-                tilemap.SetColor(sTilePos, hoverTileColour);
+                tilemap.SetColor(sTilePos, hoverTileColour); // Changes hovered tile color
+
+                if (sTilePos != pTilePos)
+                    FindObjectOfType<AudioManager>().PlaySound("TileHover"); 
 
                 if (Input.GetMouseButtonDown(0))
                 {
                     clickedTile = sTilePos;
+                    FindObjectOfType<AudioManager>().PlaySound("TileClick");
                     TileClicked();
                 }
 
             }
 
         }
+        pTilePos = sTilePos;
 
     }
 
@@ -173,7 +170,6 @@ public class TilesHandler : MonoBehaviour
     {
         if (clickedTile.x >= width || clickedTile.y >= height || clickedTile.x < 0 || clickedTile.y < 0)
             return;
-        Debug.Log(clickedTile);
         onTileSelect?.Invoke(tileGrid[clickedTile.x, clickedTile.y]); // Gets index of the selected tile and sends it to other scripts when the left mouse button is pressed
         tileIsClicked = true;
     }
@@ -182,6 +178,7 @@ public class TilesHandler : MonoBehaviour
     // Adds tile to build to the tileGrid array
     void AddTileToBuild(int id)
     {
+        FindObjectOfType<AudioManager>().PlaySound("TileBuild");
         // Sets current clicked tile to new id
         tileGrid[clickedTile.x, clickedTile.y] = id;
         onTileSelect?.Invoke(id);

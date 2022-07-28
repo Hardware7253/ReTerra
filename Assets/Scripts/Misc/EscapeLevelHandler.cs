@@ -63,5 +63,10 @@ public class EscapeLevelHandler : MonoBehaviour
     {
         optionsMenuOpen = true;
     }
+
+    public void CloseOptions()
+    {
+        optionsMenuOpen = false;
+    }
 }
 
