@@ -35,8 +35,8 @@ public class Colours : MonoBehaviour
         new Color32(103, 183, 146, 255), // Stats display text positive colour     19
         new Color32(218, 110, 110, 255), // Stats display text negative colour     20
 
-        new Color32(168, 168, 168, 255), // Game background bad envrionment        21
-        new Color32(173, 222, 178, 255), // Game background good envrionment       22
+        //new Color32(168, 168, 168, 255), // Game background bad envrionment        21
+        //new Color32(173, 222, 178, 255), // Game background good envrionment       22
     };
 
 
