@@ -8,8 +8,6 @@ public class BuildingMenuScript : MonoBehaviour
 {
     float uiScaleL = (float)MainBalancing.uiScale;
 
-    int fontSize = 12;
-
     Vector2 sizePostScale;
     Vector2 openedPosition;
     Vector2 closedPosition;
@@ -81,7 +79,6 @@ public class BuildingMenuScript : MonoBehaviour
         sButton.GetComponent<Button>().interactable = buttonActive;
 
         // Set the text
-        sButton.GetComponentInChildren<Text>().fontSize = fontSize;
         sButton.GetComponentInChildren<Text>().text = text;
 
         buttonsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, buttonsContainerInitY); // Reset scroll position to the top

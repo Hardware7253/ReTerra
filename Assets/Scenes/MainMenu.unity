@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 593721963}
   - component: {fileID: 593721962}
   - component: {fileID: 593721964}
+  - component: {fileID: 593721965}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -226,6 +227,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isText: 1
   colorIndex: 4
+--- !u!114 &593721965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593721960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da3ffaef8a899e459e558bf55abb7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fontIndexer: 0
+  fontSizeIndexer: 1
 --- !u!114 &608220232 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4431610371435136, guid: 11fd7232497417648a0e3131b547dbff,
@@ -250,6 +265,7 @@ GameObject:
   - component: {fileID: 611051335}
   - component: {fileID: 611051334}
   - component: {fileID: 611051336}
+  - component: {fileID: 611051337}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -331,6 +347,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isText: 1
   colorIndex: 4
+--- !u!114 &611051337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611051332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da3ffaef8a899e459e558bf55abb7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fontIndexer: 0
+  fontSizeIndexer: 1
 --- !u!1 &677469988
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,6 +375,7 @@ GameObject:
   - component: {fileID: 677469989}
   - component: {fileID: 677469993}
   - component: {fileID: 677469994}
+  - component: {fileID: 677469995}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -382,7 +413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 64
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
@@ -456,6 +487,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9aaa83cd0a58a94692ae02fc29ba5c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &677469995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677469988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bebda38d39e1fd4f80a54e43e76c147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &800008354
@@ -902,6 +945,7 @@ GameObject:
   - component: {fileID: 1077523163}
   - component: {fileID: 1077523162}
   - component: {fileID: 1077523164}
+  - component: {fileID: 1077523165}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -983,6 +1027,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isText: 1
   colorIndex: 2
+--- !u!114 &1077523165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077523160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da3ffaef8a899e459e558bf55abb7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fontIndexer: 2
+  fontSizeIndexer: 0
 --- !u!1 &1256673902
 GameObject:
   m_ObjectHideFlags: 0
@@ -995,6 +1053,7 @@ GameObject:
   - component: {fileID: 1256673905}
   - component: {fileID: 1256673904}
   - component: {fileID: 1256673906}
+  - component: {fileID: 1256673907}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1076,6 +1135,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isText: 1
   colorIndex: 4
+--- !u!114 &1256673907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256673902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da3ffaef8a899e459e558bf55abb7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fontIndexer: 0
+  fontSizeIndexer: 1
 --- !u!1 &1306803744
 GameObject:
   m_ObjectHideFlags: 0
@@ -1305,13 +1378,13 @@ MonoBehaviour:
   sounds:
   - name: TileHover
     clip: {fileID: 8300000, guid: 3b4c54245d2fe1d4db4d1053de893918, type: 3}
-    volume: 0.2
+    volume: 0.35
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: TileClick
     clip: {fileID: 8300000, guid: 5860d8079a8bb7c49baf504164d4f8e5, type: 3}
-    volume: 0.05
+    volume: 0.08
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -1323,7 +1396,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: UIClick
     clip: {fileID: 8300000, guid: 76105e155b2ba3e4496df753081d10ad, type: 3}
-    volume: 0.1
+    volume: 0.2
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -1334,7 +1407,7 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: Error
-    clip: {fileID: 8300000, guid: ee65e468ce7dcd04f991b8549ead1ce4, type: 3}
+    clip: {fileID: 8300000, guid: f6218185ea90c0c42a17c4d11b6c83a3, type: 3}
     volume: 0.8
     pitch: 1
     loop: 0
@@ -1367,7 +1440,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 35ba6e466eedc59438ee5ba657f35672, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1712,6 +1785,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 677469992}
     m_Modifications:
+    - target: {fileID: 375726626, guid: 11fd7232497417648a0e3131b547dbff, type: 3}
+      propertyPath: fontIndexer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4431609662183866, guid: 11fd7232497417648a0e3131b547dbff, type: 3}
       propertyPath: MainMenu
       value: 
