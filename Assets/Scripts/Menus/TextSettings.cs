@@ -24,7 +24,7 @@ public class TextSettings : MonoBehaviour
 
         12,     // 4 Stats font size    
         12,     // 5 Turns font size
-        12,     // 6 Building menu font size
+        10,      // 6 Building menu font size
         8,      // 7 Can't afford text font size
 
         180     // 8 Special
