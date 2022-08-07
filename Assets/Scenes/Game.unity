@@ -2245,7 +2245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tiles:
-  - {fileID: 11400000, guid: d487ca7885a64014ead9706410253e11, type: 2}
+  - {fileID: 11400000, guid: 6f18b035ab77d8b48969567d8cb769cb, type: 2}
   - {fileID: 11400000, guid: 5c4bb1b67bf50be60b9ac4683da851f9, type: 2}
   - {fileID: 11400000, guid: 22bcaeeb5df00650f90c093515a80d47, type: 2}
   - {fileID: 11400000, guid: dac1da0ee62adc7c49f8db992a0653c1, type: 2}
@@ -2255,7 +2255,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6dfe8a3bca2206aa6bcd9ab7a4949713, type: 2}
   - {fileID: 11400000, guid: d598b1c79d4e34c4793a3d8b409ee4c9, type: 2}
   - {fileID: 11400000, guid: 7888f5d979169e812b0053d7e14cad9d, type: 2}
-  - {fileID: 11400000, guid: 5c4bb1b67bf50be60b9ac4683da851f9, type: 2}
+  - {fileID: 11400000, guid: c82a196e61a5cc04795cf81e7b28bf3a, type: 2}
   - {fileID: 11400000, guid: 5c4bb1b67bf50be60b9ac4683da851f9, type: 2}
   - {fileID: 11400000, guid: 5c4bb1b67bf50be60b9ac4683da851f9, type: 2}
   - {fileID: 11400000, guid: 5c4bb1b67bf50be60b9ac4683da851f9, type: 2}
@@ -2277,7 +2277,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1b2081705041d3643be870fbc0cf20c4, type: 2}
   - {fileID: 11400000, guid: 7252e6cb5d9e70abe82c6670105325e5, type: 2}
   - {fileID: 11400000, guid: 5c4bb1b67bf50be60b9ac4683da851f9, type: 2}
-  - {fileID: 11400000, guid: 5c4bb1b67bf50be60b9ac4683da851f9, type: 2}
+  - {fileID: 11400000, guid: 79db511a5e3e1854d8d6fb99bf7e502d, type: 2}
   - {fileID: 11400000, guid: 5c4bb1b67bf50be60b9ac4683da851f9, type: 2}
   - {fileID: 11400000, guid: 5c4bb1b67bf50be60b9ac4683da851f9, type: 2}
   - {fileID: 11400000, guid: 5c4bb1b67bf50be60b9ac4683da851f9, type: 2}
@@ -3838,7 +3838,7 @@ MonoBehaviour:
   m_Vertical: 1
   m_MovementType: 2
   m_Elasticity: 0.1
-  m_Inertia: 1
+  m_Inertia: 0
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 8
   m_Viewport: {fileID: 0}

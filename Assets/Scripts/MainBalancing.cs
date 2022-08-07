@@ -18,7 +18,7 @@ public class MainBalancing : MonoBehaviour
         "Plains",             // id 7
         "Park",               // id 8
         "Forest",             // id 9
-        "10",                 // id 10
+        "Orchard",            // id 10
         "11",                 // id 11
         "12",                 // id 12
         "13",                 // id 13
@@ -40,7 +40,7 @@ public class MainBalancing : MonoBehaviour
         "Coal Plant Mk.1",    // id 29
         "Coal Plant Mk.2",    // id 30
         "31",                 // id 31
-        "32",                 // id 32
+        "Nuclear Plant",      // id 32
         "33",                 // id 33
         "34",                 // id 34
         "35",                 // id 35
@@ -64,14 +64,14 @@ public class MainBalancing : MonoBehaviour
         {-1, -1, -1, -1, -1, -1}, // Town (id0)
         {18, -1, -1, -1, -1, -1}, // Water (id1)
         {22, 26, -1, -1, -1, -1}, // Rocks(id2)
-        {29 , 4, -1, -1, -1, -1}, // Barren Plains (id3)
+        {29 , 4, 32, -1, -1, -1}, // Barren Plains (id3)
         {-1, -1, -1, -1, -1, -1}, // Seeds (id4)
         {-1, -1, -1, -1, -1, -1}, // Seeds (Growing1) (id5)
         {-1, -1, -1, -1, -1, -1}, // Seeds (Growing2) (id6)
-        {8 , -1, -1, -1, -1, -1}, // Plains (id7)
+        {8 , 10, -1, -1, -1, -1}, // Plains (id7)
         {9 , -1, -1, -1, -1, -1}, // Park (id8)
         {-1, -1, -1, -1, -1, -1}, // Forest (id9)
-        {-1, -1, -1, -1, -1, -1}, // 10
+        {-1, -1, -1, -1, -1, -1}, // Orchard (id10)
         {-1, -1, -1, -1, -1, -1}, // 11
         {-1, -1, -1, -1, -1, -1}, // 12
         {-1, -1, -1, -1, -1, -1}, // 13
@@ -93,7 +93,7 @@ public class MainBalancing : MonoBehaviour
         {30, -1, -1, -1, -1, -1}, // Coal Plant Mk.1 (id29)
         {-1, -1, -1, -1, -1, -1}, // Coal Plant Mk.2 (id30)
         {-1, -1, -1, -1, -1, -1}, // 31
-        {-1, -1, -1, -1, -1, -1}, // 32
+        {-1, -1, -1, -1, -1, -1}, // Nuclear Plant (id32)
         {-1, -1, -1, -1, -1, -1}, // 33
         {-1, -1, -1, -1, -1, -1}, // 34
         {-1, -1, -1, -1, -1, -1}, // 35
@@ -116,48 +116,48 @@ public class MainBalancing : MonoBehaviour
     */
     int[,] tileStatsArray = new int[,]
     {
-    //   $, c, p, e    
-        {0, 0, 0, 0},       // Town
-        {0, 0, 0, 1},       // Water
-        {0, 0, 0, 0},       // Rocks
-        {0, 0, 0, -1},      // Barren Plains
-        {-5, 0, 0, 0},      // Seeds
-        {0, 0, 0, 0},       // Seeds (Growing1)
-        {0, 0, 0, 0},       // Seeds (Growing2)
-        {0, 0, 0, 1},       // Plains
-        {-10, 0, 0, 4},     // Park
-        {-13, 0, 0, 10},    // Forest
-        {0, 0, 0, 0},       // 10
-        {0, 0, 0, 0},       // 11
-        {0, 0, 0, 0},       // 12
-        {0, 0, 0, 0},       // 13
-        {0, 0, 0, 0},       // 14
-        {0, 0, 0, 0},       // 15
-        {0, 0, 0, 0},       // 16
-        {0, 0, 0, 0},       // 17
-        {-12, 0, 3, -1},    // Hydro Turbine Mk.1
-        {-15, 0, 8, -2},    // Hydro Turbine Mk.2
-        {-17, 0, 16, -4},   // Hydro Turbine Mk.3
-        {0, 0, 0, 0},       // 21
-        {-10, 0, 2, -1},    // Wind Turbine Mk.1
-        {-12, 0, 8, -2},    // Wind Turbine Mk.2
-        {-15, 0, 14, -3},   // Wind Turbine Mk.3
-        {0, 0, 0, 0},       // 25
-        {-10, 4, -4, -3},   // Mine Mk.1
-        {-23, 12, -14, -6}, // Mine Mk.2
-        {0, 0, 0, 0},       // 28
-        {-20, -2, 8, -6},   // Coal Plant Mk.1
-        {-30, -4, 18, -12}, // Coal Plant Mk.2
-        {0, 0, 0, 0},       // 31
-        {0, 0, 0, 0},       // 32
-        {0, 0, 0, 0},       // 33
-        {0, 0, 0, 0},       // 34
-        {0, 0, 0, 0},       // 35
-        {0, 0, 0, 0},       // 36
-        {0, 0, 0, 0},       // 37
-        {0, 0, 0, 0},       // 38
-        {0, 0, 0, 0},       // 39
-        {0, 0, 0, 0}        // 40
+    //   $,    c,   p,   e    
+        {0,    0,   0,   0},    // Town
+        {0,    0,   0,   1},    // Water
+        {0,    0,   0,   0},    // Rocks
+        {0,    0,   0,  -1},    // Barren Plains
+        {-5,   0,   0,   0},    // Seeds
+        {0,    0,   0,   0},    // Seeds (Growing1)
+        {0,    0,   0,   0},    // Seeds (Growing2)
+        {0,    0,   0,   1},    // Plains
+        {-10,  0,   0,   4},    // Park
+        {-13,  0,   0,  10},    // Forest
+        {-20,  0,   0,   8},    // Orchard
+        {0,    0,   0,   0},    // 11
+        {0,    0,   0,   0},    // 12
+        {0,    0,   0,   0},    // 13
+        {0,    0,   0,   0},    // 14
+        {0,    0,   0,   0},    // 15
+        {0,    0,   0,   0},    // 16
+        {0,    0,   0,   0},    // 17
+        {-12,  0,   3,  -1},    // Hydro Turbine Mk.1
+        {-15,  0,   8,  -2},    // Hydro Turbine Mk.2
+        {-17,  0,  16,  -4},    // Hydro Turbine Mk.3
+        {0,    0,   0,   0},    // 21
+        {-10,  0,   2,  -1},    // Wind Turbine Mk.1
+        {-12,  0,   8,  -2},    // Wind Turbine Mk.2
+        {-15,  0,  14,  -3},    // Wind Turbine Mk.3
+        {0,    0,   0,   0},    // 25
+        {-10,  4,  -4,  -3},    // Mine Mk.1
+        {-23, 12, -14,  -6},    // Mine Mk.2
+        {0,    0,   0,   0},    // 28
+        {-20, -2,   8,  -6},    // Coal Plant Mk.1
+        {-30, -4,  18, -12},    // Coal Plant Mk.2
+        {0,    0,   0,   0},    // 31
+        {-80,  0,  45,   0},    // Nuclear plant
+        {0,    0,   0,   0},    // 33
+        {0,    0,   0,   0},    // 34
+        {0,    0,   0,   0},    // 35
+        {0,    0,   0,   0},    // 36
+        {0,    0,   0,   0},    // 37
+        {0,    0,   0,   0},    // 38
+        {0,    0,   0,   0},    // 39
+        {0,    0,   0,   0}     // 40
     };
 
     // Effect each tile has on town hapiness
@@ -171,9 +171,9 @@ public class MainBalancing : MonoBehaviour
         0f,       // Seeds (Growing1)
         0f,       // Seeds (Growing2)
         0.006f,   // Plains
-        0.01f,   // Park
+        0.01f,    // Park
         0.018f,   // Forest
-        0f,       // 10
+        0.15f,       // Orchard
         0f,       // 11
         0f,       // 12
         0f,       // 13
@@ -181,21 +181,21 @@ public class MainBalancing : MonoBehaviour
         0f,       // 15
         0f,       // 16
         0f,       // 17
-        -0.01f,  // Hydro Turbine Mk.1
+        -0.01f,   // Hydro Turbine Mk.1
         -0.012f,  // Hydro Turbine Mk.2
-        -0.018f,   // Hydro Turbine Mk.3
+        -0.018f,  // Hydro Turbine Mk.3
         0f,       // 21
         -0.008f,  // Wind Turbine Mk.1
-        -0.01f,  // Wind Turbine Mk.2
+        -0.01f,   // Wind Turbine Mk.2
         -0.012f,  // Wind Turbine Mk.3
         0f,       // 25
-        -0.1f,   // Mine Mk.1
+        -0.1f,    // Mine Mk.1
         -0.12f,   // Mine Mk.2
         0f,       // 28
         -0.13f,   // Coal Plant Mk.1
         -0.23f,   // Coal Plant Mk.2
         0f,       // 31
-        0f,       // 32
+        -0.2f,    // Nuclear plant
         0f,       // 33
         0f,       // 34
         0f,       // 35
@@ -226,11 +226,11 @@ public class MainBalancing : MonoBehaviour
     public static int turn;
     public static int uiScale = 5;
 
-    float powerPerPerson = 0.01f; // Power consumed per person per turn
-    float currencyPerPerson = 0.002f; // Currency made per person per turn
+    float powerPerPerson = 0.02f; // Power consumed per person per turn
+    float currencyPerPerson = 0.001f; // Currency made per person per turn
 
-    int tileGrowChancePerTurn = 50; // Percentage chance of a seed growing per turn
-    int seedSpreadChancePerAdjacentTile = 50; // Percentage chance of a seed spreading to an adjacent tile per turn
+    public static int seedGrowChancePerTurn = 80; // Percentage chance of a seed growing per turn
+    public static int seedSpreadChancePerAdjacentTile = 80; // Percentage chance of a seed spreading to an adjacent tile per turn
 
     int[] buttonIds = new int[] {-1, -1, -1, -1, -1, -1}; // Array of tile ids corresponding to each building menu botton
 
@@ -272,9 +272,8 @@ public class MainBalancing : MonoBehaviour
     public event Action<int, int, int, bool, Color> onSetStatText; // Event responsible for setting text of stats displays
     public event Action<int> onBuildButtonPressed; // Event gives TilesHandler tile to build on the isometric map
     public event Action resetClickedTile; // Does the equivelent of re clicking a tile after the buidling menu has been hovered. Otherwise the incorrect stats show in the stats display
-    public event Action<int, int, int> onSendMarker; // Each time this is called markers are made
     public event Action onResetMarker; // Remove all markers on screen
-    public event Action<Vector3Int, int> onPlaceMarker; // PLace marker
+    public event Action<Vector3Int, int> onPlaceMarker; // PLace marker at given position
     public event Action<bool> onSetCFText; // Sets the cant afford text on/off
     public event Action<float> onSendHapiness; // Gives the hapiness value to other scripts. This is used to seth the sprite for the population display
 
@@ -600,7 +599,7 @@ public class MainBalancing : MonoBehaviour
         }
 
         // If there is not enough excess power for the town place a power marker at the town position
-        if (gPower - gReqPower <= powerConsume)
+        if (gPower - gReqPower < powerConsume)
             onPlaceMarker?.Invoke(townPos, 1); // Place power marker at town position
     }
 
@@ -812,15 +811,5 @@ public class MainBalancing : MonoBehaviour
     void AddScore()
     {
         score += ((gPopulation * gEnvironment) + (gPopulation * (gPower - gReqPower))) / 128;
-        Debug.Log(score);
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        // events like this that only need to be invoked at the start will not work
-        // Because the subscriber will not be able to subscribe intime using FindObjectOfType
-        onSendBalanceInfo?.Invoke(tileGrowChancePerTurn, seedSpreadChancePerAdjacentTile);
     }
 }

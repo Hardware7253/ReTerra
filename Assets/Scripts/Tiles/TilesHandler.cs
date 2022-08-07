@@ -71,7 +71,6 @@ public class TilesHandler : MonoBehaviour
     {
         FindObjectOfType<MainBalancing>().onBuildButtonPressed += AddTileToBuild;
         FindObjectOfType<MainBalancing>().onNewTurn += NewTurn;
-        FindObjectOfType<MainBalancing>().onSendBalanceInfo += SetBalanceInfo;
         FindObjectOfType<MainBalancing>().resetClickedTile += TileClicked;
 
         
@@ -89,18 +88,10 @@ public class TilesHandler : MonoBehaviour
         TileMouseInteractions();
     }
 
-    void SetBalanceInfo(int seedGrowChanceL, int seedSpreadChanceL)
-    {
-        seedGrowChance = seedGrowChanceL;
-        seedSpreadChance = seedSpreadChanceL;
-    }
-
     bool IsMouseOverUi()
     {
         return EventSystem.current.IsPointerOverGameObject();
     }
-
-
 
     // Handles interactions between the user and the tiles
     // Updates tile color when it is hovered or clicked on
@@ -284,7 +275,7 @@ public class TilesHandler : MonoBehaviour
     // Grows seeds
     void GrowSeed(int id, int x, int y, int index)
     {   
-        if (Percentage(seedGrowChance)) // seedGrowChance% chance of tile being grown
+        if (Percentage(MainBalancing.seedGrowChancePerTurn)) // seedGrowChance% chance of tile being grown
         {   
             tileGrid [x, y] = seedGrowthIds[index + 1];
         }
@@ -308,7 +299,7 @@ public class TilesHandler : MonoBehaviour
 
             if ((sTile.x < width && sTile.x >= 0 && sTile.y < height && sTile.y >= 0) && tileGrid[sTile.x, sTile.y] == seedSpreadableId) // Only spread to adjacent tile if it is inside the tileGrid and the selected adjacent tile is appropriate to spread to
             {
-                if (Percentage(seedSpreadChance)) // seedSpreadChance% chance of adjacent tile being spread to
+                if (Percentage(MainBalancing.seedSpreadChancePerAdjacentTile)) // seedSpreadChance% chance of adjacent tile being spread to
                     tileGrid[sTile.x, sTile.y] = seedGrowthIds[0];
             }
         }
