@@ -10,32 +10,18 @@ public class CantAffordText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {   
-        FindObjectOfType<BuildingMenuScript>().onSendProperties += SetTextPos;
         FindObjectOfType<MainBalancing>().onSetCFText += ShowText;
+        FindObjectOfType<SliderUpdateValue>().onSetUiScale += SetUiScale;
 
         myRTransform = gameObject.GetComponent<RectTransform>();
-
         ShowText(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    void SetUiScale()
     {
-
-    }
-
-
-    // Set the position of the text just below the building menu buttons box
-    void SetTextPos(Vector2 cTransformProperties)
-    {   
-        Vector2 mySize = myRTransform.sizeDelta;
-
-        float yOffset = ((mySize.y / 2) * MainBalancing.uiScale);
-
-        myRTransform.anchoredPosition = new Vector2(cTransformProperties.x, (cTransformProperties.y * 2) - yOffset);
         myRTransform.localScale = new Vector2(MainBalancing.uiScale, MainBalancing.uiScale);
     }
-
+    
     void ShowText(bool showText)
     {
         gameObject.GetComponent<Text>().enabled = showText;

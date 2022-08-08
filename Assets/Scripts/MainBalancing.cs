@@ -232,7 +232,7 @@ public class MainBalancing : MonoBehaviour
     public static int seedGrowChancePerTurn = 80; // Percentage chance of a seed growing per turn
     public static int seedSpreadChancePerAdjacentTile = 80; // Percentage chance of a seed spreading to an adjacent tile per turn
 
-    int[] buttonIds = new int[] {-1, -1, -1, -1, -1, -1}; // Array of tile ids corresponding to each building menu botton
+    public static int[] buttonIds = new int[] {-1, -1, -1, -1, -1, -1}; // Array of tile ids corresponding to each building menu botton
 
     int sButton;
     int pButton;

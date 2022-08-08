@@ -20,11 +20,9 @@ public class BuildingMenuScript : MonoBehaviour
     [SerializeField]
     GameObject buttonsContainer;
 
-    float buttonsContainerInitY;
+    int yPerButton = 30; // How much y value of the buttons container is assigned to each button
 
     RectTransform myRTransform;
-
-    public event Action<Vector2> onSendProperties;
 
     public static bool buildingMenuOpen = false;
 
@@ -37,9 +35,6 @@ public class BuildingMenuScript : MonoBehaviour
         FindObjectOfType<MainBalancing>().onSetBuildOpen += MenuOpen;
 
         myRTransform = gameObject.GetComponent<RectTransform>();
-
-        // Get initial y value of the button container, this is the top of the scroll rect
-        buttonsContainerInitY = buttonsContainer.GetComponent<RectTransform>().anchoredPosition.y;
 
         // Scale and place the building menu and hide it
         SetScalePos();
@@ -58,6 +53,7 @@ public class BuildingMenuScript : MonoBehaviour
     // Set the scale and position of the turns button
     void SetScalePos()
     {
+        SetSize();
         Vector2 refSize = myRTransform.sizeDelta;
         sizePostScale = new Vector2(refSize.x * (uiScaleL / 2), refSize.y * (uiScaleL / 2)); // Calulate the new image size after it has been scaled
 
@@ -80,35 +76,38 @@ public class BuildingMenuScript : MonoBehaviour
 
         // Set the text
         sButton.GetComponentInChildren<Text>().text = text;
-
-        buttonsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, buttonsContainerInitY); // Reset scroll position to the top
     }
 
     // Closes / opens the building menu by moving it off / on screen
     void MenuOpen(bool isOpen, bool isScrolling)
     {
-        // Set the scrolling on / off
-        gameObject.GetComponent<ScrollRect>().enabled = isScrolling;
-
+        SetScalePos();
         if (isOpen)
         {
             myRTransform.anchoredPosition = openedPosition; // Open menu
-            SendProperties();
             buildingMenuOpen = true;
             return;
         }
-        SendProperties();
         buildingMenuOpen = false;
         myRTransform.anchoredPosition = closedPosition; // Close menu
     }
 
-    // Send properties for can't afford text
-    // x and y are for container position
-    void SendProperties()
+    // Sets the appropriate size of the button container for how many buttons there are
+    void SetSize()
     {
-        Vector2 properties = myRTransform.anchoredPosition;
+        // Detect how many buttons there are
+        int buttons = 0;
+        for (int i = 0; i < MainBalancing.buttonIds.Length; i++)
+        {   
+            if (MainBalancing.buttonIds[i] >= 0)
+                buttons = i + 1;
+                
+            if (MainBalancing.buttonIds[i] < 0)
+                i = MainBalancing.buttonIds.Length;
+        }
 
-        onSendProperties?.Invoke(properties);
+        // Set size according to buttons     x stays constant
+        myRTransform.sizeDelta = new Vector3(myRTransform.sizeDelta.x, yPerButton * buttons);
     }
 
     // Update is called once per frame
