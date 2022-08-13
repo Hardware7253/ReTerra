@@ -216,7 +216,7 @@ public class TilesHandler : MonoBehaviour
                 return i - 1; // Subtract by 1 to get the proper index, the for loop can't start at 0 because i has to be used to multiply
             }
         }
-        return maxOutVal; // Return maxOutVal if the for loop fails
+        return maxOutVal - 1; // Return maxOutVal if the for loop fails
     }
 
     // Places tiles according to tileGrid array

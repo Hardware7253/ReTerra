@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\Audio\FadeMainMenuMusic.cs" />
      <Compile Include="Assets\Scripts\Audio\Sound.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraScript.cs" />
+     <Compile Include="Assets\Scripts\Camera\MenuCameraScript.cs" />
      <Compile Include="Assets\Scripts\Colours\ColourApply.cs" />
      <Compile Include="Assets\Scripts\Colours\Colours.cs" />
      <Compile Include="Assets\Scripts\GameUI\BuildingMenu\BMButton.cs" />
@@ -80,6 +81,7 @@
      <Compile Include="Assets\Scripts\Menus\TextSettings.cs" />
      <Compile Include="Assets\Scripts\Misc\EscapeLevelHandler.cs" />
      <Compile Include="Assets\Scripts\Tiles\MarkerTilesHandler.cs" />
+     <Compile Include="Assets\Scripts\Tiles\MenuTilesHandler.cs" />
      <Compile Include="Assets\Scripts\Tiles\TilesHandler.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />

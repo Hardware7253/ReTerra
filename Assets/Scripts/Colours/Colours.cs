@@ -10,12 +10,12 @@ public class Colours : MonoBehaviour
     {
         new Color32(255, 255, 255, 255), // Default colour                         0
 
-        new Color32(33, 37, 41, 255),    // Main menu background                   1
+        new Color32(33, 37, 41, 128),    // Main menu background                   1
         new Color32(255, 255, 255, 255), // Main menu text                         2
         new Color32(33, 37, 41, 255),    // Main menu button background            3
         new Color32(255, 255, 255, 255), // Main menu button text                  4
 
-        new Color32(33, 37, 41, 255),    // Pause menu background                  5
+        new Color32(33, 37, 41, 128),    // Pause menu background                  5
         new Color32(255, 255, 255, 255), // Pause menu text                        6
         new Color32(33, 37, 41, 255),    // Pause menu button background           7
         new Color32(255, 255, 255, 255), // Pause menu button text                 8

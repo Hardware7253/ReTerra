@@ -7,9 +7,9 @@ public class CameraScript : MonoBehaviour
 {
     float cameraSpeed = 1.2f;
 
-    //Vector2 camXLimits = new Vector2(-4, 4);
-    //Vector2 camYLimits = new Vector2(-0.5f, 4);
-    
+    int ppusIndexer = 1;
+    int[] ppus = new int[] {32, 64, 128};
+
     float[] camXLimits = new float[2] {-4, 4};
     float[] camYLimits = new float[2] {-0.5f, 4};
     void LateUpdate()
@@ -72,5 +72,4 @@ public class CameraScript : MonoBehaviour
         if (shouldUpdate)
             gameObject.transform.position = new Vector3(outPosX, outPosY, -1);
     }
-
 }
