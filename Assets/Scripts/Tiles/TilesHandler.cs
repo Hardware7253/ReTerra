@@ -70,8 +70,8 @@ public class TilesHandler : MonoBehaviour
     void Start()
     {
         FindObjectOfType<MainBalancing>().onBuildButtonPressed += AddTileToBuild;
-        FindObjectOfType<MainBalancing>().onNewTurn += NewTurn;
         FindObjectOfType<MainBalancing>().resetClickedTile += TileClicked;
+        FindObjectOfType<TurnsScript>().onNewTurn += NewTurn;
 
         
         // Randomly offsets the perlin noise
@@ -242,7 +242,7 @@ public class TilesHandler : MonoBehaviour
         tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), tiles[id]);
     }
 
-    void NewTurn()
+    public void NewTurn()
     {
         UpdateSeeds();
         DetectAllCurrentTiles();

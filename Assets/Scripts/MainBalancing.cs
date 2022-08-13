@@ -51,6 +51,52 @@ public class MainBalancing : MonoBehaviour
         "40"                  // id 40
     };
 
+    // In depth info for each tile
+    string[] tileInfo = new string[]
+    {
+        "People live in the town, make them happy and the population will grow faster. The more people there are the more currency you'll earn per year",           // id 0
+        "Makes people happy, and has great potential for power generation",                                                                                         // id 1
+        "Full of rare resources below ground, and high winds above ground due to high elevation",                                                                   // id 2
+        "A desolate waste land, makes people unhappy",                                                                                                              // id 3
+        "Can grow into grass and have a high chance to spread to adjacent tiles",                                                                                   // id 4
+        "Can grow into grass and have a high chance to spread to adjacent tiles",                                                                                   // id 5
+        "Can grow into grass and have a high chance to spread to adjacent tiles",                                                                                   // id 6
+        "Lush green fields. Makes people happy, and has great soil",                                                                                                // id 7
+        "A small ammount of bushes and trees for people to enjoy, makes people happy",                                                                              // id 8
+        "A great forest with many tall trees, makes people happy",                                                                                                  // id 9
+        "Full of plants and fruit trees, provides great improvements to hapiness",                                                                                  // id 10
+        "11",                                                                                                                                                       // id 11
+        "12",                                                                                                                                                       // id 12
+        "13",                                                                                                                                                       // id 13
+        "14",                                                                                                                                                       // id 14
+        "15",                                                                                                                                                       // id 15
+        "16",                                                                                                                                                       // id 16
+        "17",                                                                                                                                                       // id 17
+        "Harvesting the power of the currents, makes people slightly unhappy",                                                                                      // id 18
+        "Harvesting the power of the currents, makes people slightly unhappy",                                                                                      // id 19
+        "Harvesting the power of the currents, makes people slightly unhappy",                                                                                      // id 20
+        "21",                                                                                                                                                       // id 21
+        "Harvesting the power of the winds, makes people slightly unhappy",                                                                                         // id 22
+        "Harvesting the power of the winds, makes people slightly unhappy",                                                                                         // id 23
+        "Harvesting the power of the winds, makes people slightly unhappy",                                                                                         // id 24
+        "25",                                                                                                                                                       // id 25
+        "Harvesting resources from below, vibrations and noise make people unhappy",                                                                                // id 26
+        "Harvesting resources from deep below, vibrations and noise make people very unhappy",                                                                      // id 27
+        "28",                                                                                                                                                       // id 28
+        "Burning coal to run the turbines, releases fumes which make people unhappy",                                                                               // id 29
+        "Burning coal to run the turbines, releases fumes which make people unhappy",                                                                               // id 30
+        "31",                                                                                                                                                       // id 31
+        "Uranium-235 undergoing fission to run the turbines, great for power and environment if managed correctly. Threat of catastrophe makes people unhappy",     // id 32
+        "33",                                                                                                                                                       // id 33
+        "34",                                                                                                                                                       // id 34
+        "35",                                                                                                                                                       // id 35
+        "36",                                                                                                                                                       // id 36
+        "37",                                                                                                                                                       // id 37
+        "38",                                                                                                                                                       // id 38
+        "39",                                                                                                                                                       // id 39
+        "40"                                                                                                                                                        // id 40
+    };
+
 
     /*
         2D array that defines what tiles can be built on a given tile
@@ -126,8 +172,8 @@ public class MainBalancing : MonoBehaviour
         {0,    0,   0,   0},    // Seeds (Growing2)
         {0,    0,   0,   1},    // Plains
         {-10,  0,   0,   4},    // Park
-        {-13,  0,   0,  10},    // Forest
-        {-20,  0,   0,   8},    // Orchard
+        {-13,  0,   0,  12},    // Forest
+        {-30,  0,   0,  9 },    // Orchard
         {0,    0,   0,   0},    // 11
         {0,    0,   0,   0},    // 12
         {0,    0,   0,   0},    // 13
@@ -143,13 +189,13 @@ public class MainBalancing : MonoBehaviour
         {-12,  0,   8,  -2},    // Wind Turbine Mk.2
         {-15,  0,  14,  -3},    // Wind Turbine Mk.3
         {0,    0,   0,   0},    // 25
-        {-10,  4,  -4,  -3},    // Mine Mk.1
-        {-23, 12, -14,  -6},    // Mine Mk.2
+        {-10,  4,  -4,  -4},    // Mine Mk.1
+        {-15, 12, -14,  -8},    // Mine Mk.2
         {0,    0,   0,   0},    // 28
-        {-20, -2,   8,  -6},    // Coal Plant Mk.1
-        {-30, -4,  18, -12},    // Coal Plant Mk.2
+        {-20, -2,  12,  -7},    // Coal Plant Mk.1
+        {-30, -4,  22, -16},    // Coal Plant Mk.2
         {0,    0,   0,   0},    // 31
-        {-80,  0,  45,   0},    // Nuclear plant
+        {-85,  0,  50,   0},    // Nuclear plant
         {0,    0,   0,   0},    // 33
         {0,    0,   0,   0},    // 34
         {0,    0,   0,   0},    // 35
@@ -161,49 +207,49 @@ public class MainBalancing : MonoBehaviour
     };
 
     // Effect each tile has on town hapiness
-    float[] tileHapiness = new float[]
+    int[] tileHapiness = new int[]
     {
-        0f,       // Town
-        0.01f,    // Water
-        0f,       // Rocks
-        -0.018f,  // Barren Plains
-        0f,       // Seeds
-        0f,       // Seeds (Growing1)
-        0f,       // Seeds (Growing2)
-        0.006f,   // Plains
-        0.01f,    // Park
-        0.018f,   // Forest
-        0.15f,       // Orchard
-        0f,       // 11
-        0f,       // 12
-        0f,       // 13
-        0f,       // 14
-        0f,       // 15
-        0f,       // 16
-        0f,       // 17
-        -0.01f,   // Hydro Turbine Mk.1
-        -0.012f,  // Hydro Turbine Mk.2
-        -0.018f,  // Hydro Turbine Mk.3
-        0f,       // 21
-        -0.008f,  // Wind Turbine Mk.1
-        -0.01f,   // Wind Turbine Mk.2
-        -0.012f,  // Wind Turbine Mk.3
-        0f,       // 25
-        -0.1f,    // Mine Mk.1
-        -0.12f,   // Mine Mk.2
-        0f,       // 28
-        -0.13f,   // Coal Plant Mk.1
-        -0.23f,   // Coal Plant Mk.2
-        0f,       // 31
-        -0.2f,    // Nuclear plant
-        0f,       // 33
-        0f,       // 34
-        0f,       // 35
-        0f,       // 36
-        0f,       // 37
-        0f,       // 38
-        0f,       // 39
-        0f        // 40
+        0,       // Town
+        1,       // Water
+        0,       // Rocks
+        -1,      // Barren Plains
+        0,       // Seeds
+        0,       // Seeds (Growing1)
+        0,       // Seeds (Growing2)
+        2,       // Plains
+        4,       // Park
+        6,       // Forest
+        12,      // Orchard
+        0,       // 11
+        0,       // 12
+        0,       // 13
+        0,       // 14
+        0,       // 15
+        0,       // 16
+        0,       // 17
+        -1,      // Hydro Turbine Mk.1
+        -1,      // Hydro Turbine Mk.2
+        -1,      // Hydro Turbine Mk.3
+        0,       // 21
+        -1,      // Wind Turbine Mk.1
+        -1,      // Wind Turbine Mk.2
+        -1,      // Wind Turbine Mk.3
+        0,       // 25
+        -4,      // Mine Mk.1
+        -8,      // Mine Mk.2
+        0,       // 28
+        -2,      // Coal Plant Mk.1
+        -4,      // Coal Plant Mk.2
+        0,       // 31
+        -4,      // Nuclear plant
+        0,       // 33
+        0,       // 34
+        0,       // 35
+        0,       // 36
+        0,       // 37
+        0,       // 38
+        0,       // 39
+        0        // 40
     };
 
 
@@ -250,13 +296,16 @@ public class MainBalancing : MonoBehaviour
     float gHapiness = 0f;
 
     // Amount the respective global stat is multiplied by to find the change that should be applied to the hapiness
+    int minHapiness = 0;
+    int maxHapiness = 0;
     float hapinessEnvironmentMod = 0.01f;
-    float hapinessPowerMod = 0.01f;
+    float hapinessPowerMod = 0.05f;
+    float hapinessNegMod = 2; // Ammount the hapiness and environment mods are multiplied by when they are negative (higher number makes the game significantly harder when player doesn't have adeqaute environment or power)
 
     int startingPopulation = 20; // The lowest possible population
 
     // Value that the hapiness has to be less than inorder for the population to decrease
-    float populationHapinessDecreaseThreshold = 0.33f;
+    float populationHapinessDecreaseThreshold = 0.42f;
 
     // Town stats
     int currencyMake = 0;
@@ -265,7 +314,6 @@ public class MainBalancing : MonoBehaviour
     int score = 0;
 
     public event Action<int, int> onSendBalanceInfo; // Event responsible for sending balancing info to other scripts
-    public event Action onNewTurn; // Called whenever there is a new turn so all scripts can keep track
 
     public event Action<int, string, bool, int> onSetBuildText; // Event responsible for updating text, and image visibility of build menu buttons
     public event Action<bool, bool> onSetBuildOpen; // Opens / closes the build menu, and enables / disables scroll rect
@@ -276,6 +324,7 @@ public class MainBalancing : MonoBehaviour
     public event Action<Vector3Int, int> onPlaceMarker; // PLace marker at given position
     public event Action<bool> onSetCFText; // Sets the cant afford text on/off
     public event Action<float> onSendHapiness; // Gives the hapiness value to other scripts. This is used to seth the sprite for the population display
+    public event Action<string, string> onSetinfo; // Set info for info screen
 
     Color defaultColor = Colours.colorsArray[18]; // Default color for stats displays text (gray)
     Color positiveColor = Colours.colorsArray[19]; // Positive color for stats display text, used when showing a preview for what effects a tile has (green)
@@ -292,13 +341,25 @@ public class MainBalancing : MonoBehaviour
 
         gPopulation = startingPopulation;
         SelStats(-1, true);
+        FindMaxMinHapiness();
+
+        MapIntFloat(0, -10, 10, 0f, 1f);
+
+        // Hallo, pls redo hapiness based entirely of of the tile hapiness. Then  just multiply that by some ammount of power to get final hapiness
     }
 
-
-    public void IncrementTurn()
+    void FindMaxMinHapiness()
     {
-        turn++; 
-        onNewTurn?.Invoke();
+        for (int i = 0; i < tileHapiness.Length; i++)
+        {
+            if (tileHapiness[i] > maxHapiness)
+                maxHapiness = tileHapiness[i];
+
+            if (tileHapiness[i] < minHapiness)
+                minHapiness = tileHapiness[i];
+        }
+        maxHapiness *= TilesHandler.width * TilesHandler.height;
+        minHapiness *= TilesHandler.width * TilesHandler.height;
     }
 
     void SetHoveredBMButton(int button, bool isHovered, bool changeCheckOverride)
@@ -727,51 +788,68 @@ public class MainBalancing : MonoBehaviour
             if ( stat < 0)
                 color = negativeColor;
 
-            onSetStatText.Invoke(i, stat, 0, false, color);
+            onSetStatText?.Invoke(i, stat, 0, false, color);
         }
-
         
+        onSetinfo?.Invoke(tileNames[id], tileInfo[id]);
     }
 
     // Calculate town hapiness
     void CalcHapiness()
     {
-        gHapiness = 0;
-        int excessPower = gPower - gReqPower;
-
-        // Hapiness effect from power
-        gHapiness += (gPower - gReqPower) * hapinessPowerMod;
-
-        // Hapiness effect from environment
-        gHapiness += gEnvironment * hapinessEnvironmentMod;
+        int hapiness = 0;
 
         // Go through tile grid
-        // Add tile effects to global hapiness
+        // Add tile hapiness effects to hapiness
         for (int x = 0; x < TilesHandler.width; x++)
         {
             for (int y = 0; y < TilesHandler.height; y++)
             {
-                gHapiness += tileHapiness[TilesHandler.tileGrid[x, y]];
+                hapiness += tileHapiness[TilesHandler.tileGrid[x, y]];
             }
         }
 
-        if (gHapiness > 1)
-            gHapiness = 1;
+        gHapiness = MapIntFloat(hapiness, minHapiness, maxHapiness, 0f, 1f);
 
-        if (gHapiness < -1)
-            gHapiness = -1;
+        // Add environment and power affects to hapiness
+        int environment;
+        int power;
+        int excessPower = gPower - gReqPower - powerConsume;
 
-        // Convert gHapiness to a number that is 0 to 1 instead of -1 to 1
-        gHapiness = (gHapiness + 1) / 2;
+        // Eliminate 0 and negative numers
+        if (gEnvironment > 0)
+            environment = gEnvironment;
+        else
+            environment = 1;
+
+        if (excessPower > 0)
+            power = excessPower;
+        else
+            power = 1;
+
+        // Calculate hapiness mod
+        float hapinessMod = Math.Abs((environment * power)) / 1000f;
+
+        // Make hapiness mod into a suitable number for percentage increases / decreases
+        if (gEnvironment < 0 && excessPower < 0)
+            hapinessMod = 1 - hapinessMod;
+        else
+            hapinessMod += 1;
+
+        gHapiness *= hapinessMod;
     }
 
-    // Maps an integer value to a float value
-    float MapIntFloat(int divide, int val)
-    {   
-        float outVal = (float)val / divide;
-        return outVal;
-    }
+    // Maps an integer number to a float value
+    float MapIntFloat(int num, int minInVal, int maxInVal, float minOutVal, float maxOutVal)
+    {
+        num += Math.Abs(minInVal);
 
+        int dInValues = maxInVal - minInVal;
+        float dOutValues = maxOutVal - minOutVal;
+
+        float floatValPerInt = dOutValues / dInValues;
+        return num * floatValPerInt;
+    }
     // Calculate town population
     void CalcPopulation()
     {   
@@ -810,6 +888,6 @@ public class MainBalancing : MonoBehaviour
     // Add to the score
     void AddScore()
     {
-        score += ((gPopulation * gEnvironment) + (gPopulation * (gPower - gReqPower))) / 128;
+        score += ((gPopulation * gEnvironment) + (gPopulation * (gPower - gReqPower - powerConsume))) / 128;
     }
 }
