@@ -11,7 +11,7 @@ public class TurnsScript : MonoBehaviour
     int fontSize = 14;
 
     RectTransform myRTransform;
-    Vector2 referenceSize = new Vector2(60, 30);
+    Vector2 referenceSize = new Vector2(70, 30);
 
     public event Action onNewTurn;
 
@@ -48,7 +48,7 @@ public class TurnsScript : MonoBehaviour
     // Set turn text
     void SetTurnText()
     {
-        gameObject.GetComponentInChildren<Text>().text = "Year: " + MainBalancing.turn + "\n" + "Advance?";
+        gameObject.GetComponentInChildren<Text>().text = "Turn: " + MainBalancing.turn + "\n" + "Advance?";
     }
 
     // Increment turn
@@ -63,7 +63,7 @@ public class TurnsScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && !EscapeLevelHandler.pauseMenuOpen)
         {
             IncrementTurn();
         }

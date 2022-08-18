@@ -14,7 +14,7 @@ public class EscapeLevelHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        pauseMenuOpen = false;
     }
 
     // Update is called once per frame

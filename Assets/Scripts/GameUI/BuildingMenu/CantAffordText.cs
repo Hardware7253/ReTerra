@@ -11,17 +11,11 @@ public class CantAffordText : MonoBehaviour
     void Start()
     {   
         FindObjectOfType<MainBalancing>().onSetCFText += ShowText;
-        FindObjectOfType<SliderUpdateValue>().onSetUiScale += SetUiScale;
 
         myRTransform = gameObject.GetComponent<RectTransform>();
         ShowText(false);
     }
 
-    void SetUiScale()
-    {
-        myRTransform.localScale = new Vector2(MainBalancing.uiScale, MainBalancing.uiScale);
-    }
-    
     void ShowText(bool showText)
     {
         gameObject.GetComponent<Text>().enabled = showText;

@@ -16,7 +16,7 @@ public class CameraScript : MonoBehaviour
     {   
         // Return if pauseMenu is open
         // Because camera should not be able to move when the game is paused
-        if (EscapeLevelHandler.pauseMenuOpen == true)
+        if (EscapeLevelHandler.pauseMenuOpen)
             return;
 
         // Move camera with WASD

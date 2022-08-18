@@ -311,7 +311,7 @@ public class MainBalancing : MonoBehaviour
     int currencyMake = 0;
     int powerConsume = 0;
 
-    int score = 0;
+    public static int score = 0;
 
     public event Action<int, int> onSendBalanceInfo; // Event responsible for sending balancing info to other scripts
 
@@ -331,7 +331,13 @@ public class MainBalancing : MonoBehaviour
     Color negativeColor = Colours.colorsArray[20]; // Negative color for stats display text, used when showing a preview for what effects a tile has (red)
 
 
-    // Start is called before the first frame update
+    void Awake()
+    {
+        turn = 0;
+        score = 0;
+        ResetMasterStats();
+    }
+    
     void Start()
     {   
         FindObjectOfType<TilesHandler>().onTileSelect += UpdateButtons;

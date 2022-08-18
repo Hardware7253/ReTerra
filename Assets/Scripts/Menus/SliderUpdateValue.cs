@@ -20,6 +20,8 @@ public class SliderUpdateValue : MonoBehaviour
         uiScaleSlider.value = MainBalancing.uiScale;
         volumeSlider.value = AudioManager.volume;
 
+        onSetUiScale?.Invoke();
+
         // Whenever the slider value is changed update the corresponding value
         // Events need to be called so code can run when values are changed
         // Otherwise the each script would have to check manually
