@@ -155,6 +155,8 @@ public class StatsScript : MonoBehaviour
     void SetHapiness(float hapiness)
     {   
         int spriteIndex = Map(hapiness, populationImages.Length, 1f);
+        if (spriteIndex > populationImages.Length - 1)
+            spriteIndex = populationImages.Length - 1;
         statsDisplays[0].GetComponent<Image>().sprite = populationImages[spriteIndex];
     }
 
@@ -167,8 +169,8 @@ public class StatsScript : MonoBehaviour
         for (int i = 1; i <= maxOutVal; i++)
         {
             if (input <= fValPerItem * i) // Test to see if the the input value matches with a section of the float value
-            {
-                return i - 1; // Subtract by 1 to get the proper index, the for loop can't start at 0 because i has to be used to multiply
+            {   
+                return i - 1; // Subtract by 1 to get the proper value, the for loop can't start at 0 because i has to be used to multiply
             }
         }
         return maxOutVal; // Return maxOutVal if the for loop fails

@@ -182,18 +182,18 @@ public class MainBalancing : MonoBehaviour
         {0,    0,   0,   0},    // 16
         {0,    0,   0,   0},    // 17
         {-12,  0,   3,  -1},    // Hydro Turbine Mk.1
-        {-15,  0,   8,  -2},    // Hydro Turbine Mk.2
-        {-17,  0,  16,  -4},    // Hydro Turbine Mk.3
+        {-10,  0,   8,  -1},    // Hydro Turbine Mk.2
+        {-17,  0,  18,  -1},    // Hydro Turbine Mk.3
         {0,    0,   0,   0},    // 21
         {-10,  0,   2,  -1},    // Wind Turbine Mk.1
-        {-12,  0,   8,  -2},    // Wind Turbine Mk.2
-        {-15,  0,  14,  -3},    // Wind Turbine Mk.3
+        {-12,  0,   8,  -1},    // Wind Turbine Mk.2
+        {-15,  0,  14,  -1},    // Wind Turbine Mk.3
         {0,    0,   0,   0},    // 25
         {-10,  4,  -4,  -4},    // Mine Mk.1
-        {-15, 12, -14,  -8},    // Mine Mk.2
+        {-15, 12, -14,  -10},    // Mine Mk.2
         {0,    0,   0,   0},    // 28
-        {-20, -2,  12,  -7},    // Coal Plant Mk.1
-        {-30, -4,  22, -16},    // Coal Plant Mk.2
+        {-20, -4,  20,  -8},    // Coal Plant Mk.1
+        {-30, -6,  45, -18},    // Coal Plant Mk.2
         {0,    0,   0,   0},    // 31
         {-85,  0,  50,   0},    // Nuclear plant
         {0,    0,   0,   0},    // 33
@@ -238,8 +238,8 @@ public class MainBalancing : MonoBehaviour
         -4,      // Mine Mk.1
         -8,      // Mine Mk.2
         0,       // 28
-        -2,      // Coal Plant Mk.1
-        -4,      // Coal Plant Mk.2
+        -4,      // Coal Plant Mk.1
+        -8,     // Coal Plant Mk.2
         0,       // 31
         -4,      // Nuclear plant
         0,       // 33
@@ -298,9 +298,6 @@ public class MainBalancing : MonoBehaviour
     // Amount the respective global stat is multiplied by to find the change that should be applied to the hapiness
     int minHapiness = 0;
     int maxHapiness = 0;
-    float hapinessEnvironmentMod = 0.01f;
-    float hapinessPowerMod = 0.05f;
-    float hapinessNegMod = 2; // Ammount the hapiness and environment mods are multiplied by when they are negative (higher number makes the game significantly harder when player doesn't have adeqaute environment or power)
 
     int startingPopulation = 20; // The lowest possible population
 
@@ -311,9 +308,7 @@ public class MainBalancing : MonoBehaviour
     int currencyMake = 0;
     int powerConsume = 0;
 
-    public static int score = 0;
-
-    public event Action<int, int> onSendBalanceInfo; // Event responsible for sending balancing info to other scripts
+    public static int score = 0;    
 
     public event Action<int, string, bool, int> onSetBuildText; // Event responsible for updating text, and image visibility of build menu buttons
     public event Action<bool, bool> onSetBuildOpen; // Opens / closes the build menu, and enables / disables scroll rect
