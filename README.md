@@ -4,9 +4,9 @@
 A small arcade game based around rebuilding the earth and meeting the requirements of a small number of citizens.
 
 # Keybinds
-
 Key(s)        | Bind
 ------------- | -------------------------
+Esacpe        | Open / close menu
 WASD          | Camera
 Arrows        | Camera
 Q             | New turn
