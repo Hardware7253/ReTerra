@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 144513476}
   - component: {fileID: 144513475}
   m_Layer: 0
-  m_Name: Tilemap - Ground
+  m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -801,7 +801,7 @@ GameObject:
   - component: {fileID: 214319571}
   - component: {fileID: 214319572}
   m_Layer: 5
-  m_Name: Game UI
+  m_Name: GameUi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1430,7 +1430,7 @@ GameObject:
   - component: {fileID: 275041782}
   - component: {fileID: 275041781}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: TilesGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1743,7 +1743,7 @@ GameObject:
   - component: {fileID: 352276160}
   - component: {fileID: 352276159}
   m_Layer: 5
-  m_Name: Coal (3)
+  m_Name: S3Coal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2480,7 +2480,7 @@ GameObject:
   - component: {fileID: 614044769}
   - component: {fileID: 614044767}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2981,7 +2981,7 @@ GameObject:
   - component: {fileID: 732105919}
   - component: {fileID: 732105918}
   m_Layer: 5
-  m_Name: Environment (1)
+  m_Name: S1Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3510,7 +3510,7 @@ GameObject:
   - component: {fileID: 948984618}
   - component: {fileID: 948984619}
   m_Layer: 0
-  m_Name: Tilemap - Markers
+  m_Name: MarkersTilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3627,7 +3627,7 @@ GameObject:
   - component: {fileID: 961831277}
   - component: {fileID: 961831276}
   m_Layer: 5
-  m_Name: Population (0)
+  m_Name: S0Population
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3987,7 +3987,7 @@ GameObject:
   - component: {fileID: 1121837404}
   - component: {fileID: 1121837403}
   m_Layer: 5
-  m_Name: CurrencyDisplay (4)
+  m_Name: S4CurrencyDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7097,7 +7097,7 @@ GameObject:
   - component: {fileID: 2144961934}
   - component: {fileID: 2144961933}
   m_Layer: 5
-  m_Name: Power (2)
+  m_Name: S2Power
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

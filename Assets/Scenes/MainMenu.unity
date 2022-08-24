@@ -688,7 +688,7 @@ GameObject:
   - component: {fileID: 800008360}
   - component: {fileID: 800008359}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1289,7 +1289,7 @@ Transform:
   m_Children:
   - {fileID: 266306058}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1256673902
 GameObject:
@@ -1676,7 +1676,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1597425612
 AudioSource:
@@ -1690,7 +1690,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 35ba6e466eedc59438ee5ba657f35672, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1857,7 +1857,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1874417234
 GameObject:
@@ -2043,6 +2043,14 @@ PrefabInstance:
       propertyPath: MainMenu
       value: 
       objectReference: {fileID: 1391481339}
+    - target: {fileID: 4431610254821229, guid: 11fd7232497417648a0e3131b547dbff, type: 3}
+      propertyPath: m_Name
+      value: Fill Area
+      objectReference: {fileID: 0}
+    - target: {fileID: 4431610278193126, guid: 11fd7232497417648a0e3131b547dbff, type: 3}
+      propertyPath: m_Name
+      value: Handle Slide Area
+      objectReference: {fileID: 0}
     - target: {fileID: 4431610520506617, guid: 11fd7232497417648a0e3131b547dbff, type: 3}
       propertyPath: m_Name
       value: OptionsMenu

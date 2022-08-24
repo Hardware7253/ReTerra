@@ -7,7 +7,6 @@ public class CameraScript : MonoBehaviour
 {
     float cameraSpeed = 1.2f;
 
-    int ppusIndexer = 1;
     int[] ppus = new int[] {32, 64, 128};
 
     float[] camXLimits = new float[2] {-4, 4};
