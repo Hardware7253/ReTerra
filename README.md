@@ -8,8 +8,10 @@ A small arcade game based around rebuilding the earth and meeting the requiremen
 Key(s)        | Bind
 ------------- | -------------------------
 Esacpe        | Open / close menu
-WASD          | Camera
-Arrows        | Camera
+WASD          | Moce camera
+Arrows        | Move camera
 Q             | New turn
 I             | Toggle tile information
 F             | Collapse stats menu
+
+[Itch.io page](https://oxnh.itch.io/reterra)
