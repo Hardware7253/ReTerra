@@ -29,6 +29,8 @@ public class TextSettings : MonoBehaviour
         14,     // 8 Info menu title
         8,      // 9 Info menu body
 
-        180     // 12 Special
+        6,      // 10 stats indicator font size
+
+        180     // 11 Special
     };
 }

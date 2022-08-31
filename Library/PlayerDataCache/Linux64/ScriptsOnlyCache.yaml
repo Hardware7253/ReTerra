@@ -25,6 +25,7 @@ ScriptsOnlyBuild:
     - SliderTextScript
     - SliderUpdateValue
     - StatTextPositioner
+    - StatsIndicator
     - StatsScript
     - TextApplier
     - TextSettings
@@ -162,6 +163,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 20326}
     - Class: 114
       Script: {instanceID: 20384}
+    - Class: 114
+      Script: {instanceID: 44000}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -284,8 +287,6 @@ ScriptsOnlyBuild:
     - Class: 156049354
       Script: {instanceID: 0}
     - Class: 483693784
-      Script: {instanceID: 0}
-    - Class: 687078895
       Script: {instanceID: 0}
     - Class: 1839735485
       Script: {instanceID: 0}
@@ -956,8 +957,14 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: StatsIndicator
   platform: 24
   scenePathNames:
   - Assets/Scenes/MainMenu.unity
   - Assets/Scenes/Game.unity
-  playerPath: C:/Users/lukey/UnityGames/Github repo/ReTerra/Builds/Linux/ReTerra.x86_64
+  playerPath: C:/Users/lukey/UnityGames/ReTerra/Builds/Linux/ReTeraLinux.x86_64

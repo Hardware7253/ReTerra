@@ -246,6 +246,7 @@ public class TilesHandler : MonoBehaviour
     {
         UpdateSeeds();
         DetectAllCurrentTiles();
+        UnClickTile();
     }
 
     // Update seeds

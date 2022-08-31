@@ -58,10 +58,10 @@ public class MainBalancing : MonoBehaviour
         "Makes people happy, and has great potential for power generation",                                                                                         // id 1
         "Full of rare resources below ground, and high winds above ground due to high elevation",                                                                   // id 2
         "A desolate waste land, makes people unhappy",                                                                                                              // id 3
-        "Can grow into grass and have a high chance to spread to adjacent tiles",                                                                                   // id 4
-        "Can grow into grass and have a high chance to spread to adjacent tiles",                                                                                   // id 5
-        "Can grow into grass and have a high chance to spread to adjacent tiles",                                                                                   // id 6
-        "Lush green fields. Makes people happy, and has great soil",                                                                                                // id 7
+        "Can grow and has a high chance to spread to adjacent tiles",                                                                                               // id 4
+        "Can grow and has a high chance to spread to adjacent tiles",                                                                                               // id 5
+        "Can grow and has a high chance to spread to adjacent tiles",                                                                                               // id 6
+        "Lush green fields. Has great soil and makes people happy",                                                                                                 // id 7
         "A small ammount of bushes and trees for people to enjoy, makes people happy",                                                                              // id 8
         "A great forest with many tall trees, makes people happy",                                                                                                  // id 9
         "Full of plants and fruit trees, provides great improvements to hapiness",                                                                                  // id 10
@@ -72,21 +72,21 @@ public class MainBalancing : MonoBehaviour
         "15",                                                                                                                                                       // id 15
         "16",                                                                                                                                                       // id 16
         "17",                                                                                                                                                       // id 17
-        "Harvesting the power of the currents, makes people slightly unhappy",                                                                                      // id 18
-        "Harvesting the power of the currents, makes people slightly unhappy",                                                                                      // id 19
-        "Harvesting the power of the currents, makes people slightly unhappy",                                                                                      // id 20
+        "Harvesting the power of water currents, makes people slightly unhappy",                                                                                    // id 18
+        "Harvesting the power of water currents, makes people slightly unhappy",                                                                                    // id 19
+        "Harvesting the power of water currents, makes people slightly unhappy",                                                                                    // id 20
         "21",                                                                                                                                                       // id 21
-        "Harvesting the power of the winds, makes people slightly unhappy",                                                                                         // id 22
-        "Harvesting the power of the winds, makes people slightly unhappy",                                                                                         // id 23
-        "Harvesting the power of the winds, makes people slightly unhappy",                                                                                         // id 24
+        "Harvesting the power of wind, makes people slightly unhappy",                                                                                              // id 22
+        "Harvesting the power of wind, makes people slightly unhappy",                                                                                              // id 23
+        "Harvesting the power of wind, makes people slightly unhappy",                                                                                              // id 24
         "25",                                                                                                                                                       // id 25
         "Harvesting resources from below, vibrations and noise make people unhappy",                                                                                // id 26
         "Harvesting resources from deep below, vibrations and noise make people very unhappy",                                                                      // id 27
         "28",                                                                                                                                                       // id 28
-        "Burning coal to run the turbines, releases fumes which make people unhappy",                                                                               // id 29
-        "Burning coal to run the turbines, releases fumes which make people unhappy",                                                                               // id 30
+        "Burning coal to run the turbines, releases fumes which makes people unhappy",                                                                              // id 29
+        "Burning coal to run the turbines, releases fumes which makes people unhappy",                                                                              // id 30
         "31",                                                                                                                                                       // id 31
-        "Uranium-235 undergoing fission to run the turbines, great for power and environment if managed correctly. Threat of catastrophe makes people unhappy",     // id 32
+        "Nuclear fission runs the turbines, great for power and environment if managed correctly. Threat of catastrophe makes people unhappy",                      // id 32
         "33",                                                                                                                                                       // id 33
         "34",                                                                                                                                                       // id 34
         "35",                                                                                                                                                       // id 35
@@ -311,7 +311,7 @@ public class MainBalancing : MonoBehaviour
     public static int score = 0;    
 
     public event Action<int, string, bool, int> onSetBuildText; // Event responsible for updating text, and image visibility of build menu buttons
-    public event Action<bool, bool> onSetBuildOpen; // Opens / closes the build menu, and enables / disables scroll rect
+    public event Action<bool> onSetBuildOpen; // Opens / closes the build menu, and enables / disables scroll rect
     public event Action<int, int, int, bool, Color> onSetStatText; // Event responsible for setting text of stats displays
     public event Action<int> onBuildButtonPressed; // Event gives TilesHandler tile to build on the isometric map
     public event Action resetClickedTile; // Does the equivelent of re clicking a tile after the buidling menu has been hovered. Otherwise the incorrect stats show in the stats display
@@ -486,25 +486,8 @@ public class MainBalancing : MonoBehaviour
 
 
         // Closes the building menu if all of the buttons have no text
-        onSetBuildOpen?.Invoke(!CheckArrayConstant(-1, buildIds), ArrayLEActive(buildIds, -1, 2));
+        onSetBuildOpen?.Invoke(!CheckArrayConstant(-1, buildIds));
         SelStats(id, false);
-    }
-
-    // Checks if an array is >= activeNeeded number
-    // Null num is a number that should be treated as nothing in the array
-    bool ArrayLEActive(int[] array, int nullNum, int activeNeeded)
-    {
-        int activeButtons = 0;
-        for (int i = 0; i < array.Length; i++)
-        {
-            if (array[i] > nullNum)
-                activeButtons++;
-        }
-
-        if (activeButtons > activeNeeded)
-            return true;
-        return false;
-
     }
 
     // Returns true if a given int array only stores the value constant

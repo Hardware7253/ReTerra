@@ -33,12 +33,13 @@ public class BuildingMenuScript : MonoBehaviour
         FindObjectOfType<SliderUpdateValue>().onSetUiScale += SetUiScale;
         FindObjectOfType<MainBalancing>().onSetBuildText += SetButtonText;
         FindObjectOfType<MainBalancing>().onSetBuildOpen += MenuOpen;
+        FindObjectOfType<TurnsScript>().onNewTurn += SetUiScale;
 
         myRTransform = gameObject.GetComponent<RectTransform>();
 
         // Scale and place the building menu and hide it
         SetScalePos();
-        MenuOpen(false, false);
+        MenuOpen(false);
     }
 
     // Called whenever uiScale is changed
@@ -47,7 +48,7 @@ public class BuildingMenuScript : MonoBehaviour
         uiScaleL = (float)MainBalancing.uiScale;
         
         SetScalePos();
-        MenuOpen(false, false);
+        MenuOpen(false);
     }
 
     // Set the scale and position of the turns button
@@ -79,7 +80,7 @@ public class BuildingMenuScript : MonoBehaviour
     }
 
     // Closes / opens the building menu by moving it off / on screen
-    void MenuOpen(bool isOpen, bool isScrolling)
+    void MenuOpen(bool isOpen)
     {
         SetScalePos();
         if (isOpen)
@@ -115,7 +116,7 @@ public class BuildingMenuScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            MenuOpen(false, false);
+            MenuOpen(false);
         }
     }
 }
