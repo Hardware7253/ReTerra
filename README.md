@@ -8,7 +8,7 @@ A small arcade game based around rebuilding the earth and meeting the requiremen
 Key(s)        | Bind
 ------------- | -------------------------
 Esacpe        | Open / close menu
-WASD          | Moce camera
+WASD          | Move camera
 Arrows        | Move camera
 Q             | New turn
 I             | Toggle tile information
